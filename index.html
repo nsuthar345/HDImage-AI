@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HD Image AI</title>    
     <link rel="stylesheet" href="style.css">
 </head>
@@ -11,18 +12,19 @@
     <form id="uploadForm">
         <input type="file" id="imageInput" accept="image/*" />
         <br><br>
-        <button type="submit" id="enhanceBtn">Enhance</button>
+        <button type="submit" id="enhanceBtn">Enhance Image</button>
     </form>
 
     <div class="container">
         <h3>Preview:</h3>
         <img id="preview" width="300" />
 
-        <div id="resultSection" style="display: none;">
+        <div id="resultSection" style="display: none; margin-top: 20px;">
+            <hr>
             <h3>Result:</h3>
-            <img id="result" width="300" />
+            <img id="result" width="300" style="border: 2px solid #22c55e;" />
             <br><br>
-            <button id="downloadBtn" class="download-style">Download High-Res Image</button>
+            <button id="downloadBtn" style="background: #38bdf8; padding: 10px 20px; font-weight: bold;">Download HD Image</button>
         </div>
     </div>
 
