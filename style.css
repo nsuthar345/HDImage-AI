@@ -49,8 +49,11 @@ body { background: #ffffff; color: var(--dark); overflow-x: hidden; }
 
 /* Mobile responsive font size */
 @media (max-width: 600px) {
-    .logo { font-size: 25px; }
-    .sub-logo { font-size: 12px; }
+    .logo { font-size: 30px; }
+    .sub-logo { font-size: 12px; 
+              color: #000000; /* Light gray professional look */
+    letter-spacing: 1px;}
+    
 }
 /* Pixelcut Style Hero Section */
 .ad-hero { padding: 80px 8% 40px; background: radial-gradient(circle at top right, #f0f9ff, #ffffff); }
