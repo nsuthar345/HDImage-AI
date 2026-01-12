@@ -3,51 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HD Image AI - Pro</title>    
+    <title>Heensa Image Cleaner - Premium AI</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
 </head>
 <body>
 
-    <div id="authSection" style="text-align: right; padding: 15px;">
-        <button id="loginBtn" style="background: #4285F4; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">Login with Google</button>
-        <div id="userInfo" style="display: none;">
-            <span id="userName" style="margin-right: 10px;"></span>
-            <button id="logoutBtn" style="background: #ef4444; border: none; color: white; padding: 5px 10px; border-radius: 5px; cursor: pointer;">Logout</button>
+    <nav class="navbar">
+        <div class="logo">Heensa<span>AI</span></div>
+        <div id="authContainer">
+            <div id="loggedOutUI">
+                <button id="loginBtn" class="btn-secondary">Login</button>
+                <button id="signupBtn" class="btn-primary">Sign Up</button>
+            </div>
+            <div id="loggedInUI" style="display:none;">
+                <span id="userName"></span>
+                <button id="logoutBtn" class="btn-danger">Logout</button>
+            </div>
         </div>
-    </div>
+    </nav>
 
-    <h1>AI Image Enhancer</h1>
+    <main class="hero-section">
+        <h1 class="main-title">Heensa Image Cleaner</h1>
+        <p class="subtitle">Transform your blurry photos into 4K Masterpieces</p>
 
-    <form id="uploadForm">
-        <input type="file" id="imageInput" accept="image/*" required />
-        <br><br>
-        
-        <label>Select Quality:</label>
-        <select id="scaleSelect" style="padding: 8px; border-radius: 5px; margin-bottom: 20px;">
-            <option value="2">2x (Free - Basic)</option>
-            <option value="4">4x (Pro - High Clear) - ₹199</option>
-            <option value="8">8x (Ultra HD) - ₹199</option>
-        </select>
-        <br>
-        
-        <button type="submit" id="enhanceBtn">Enhance Now</button>
-    </form>
-
-    <div class="container">
-        <h3>Preview:</h3>
-        <img id="preview" width="300" style="border-radius: 10px;" />
-
-        <div id="resultSection" style="display: none; margin-top: 30px;">
-            <hr>
-            <h3>Result:</h3>
-            <img id="result" width="300" style="border: 3px solid #22c55e; border-radius: 10px;" />
-            <br><br>
-            <button id="downloadBtn" style="background: #38bdf8; color: white; padding: 12px 25px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">Download HD Image</button>
+        <div class="upload-card">
+            <form id="uploadForm">
+                <div class="file-input-wrapper">
+                    <input type="file" id="imageInput" accept="image/*" required />
+                    <label for="imageInput">Choose Photo</label>
+                </div>
+                
+                <div class="controls">
+                    <label>Enhance Quality:</label>
+                    <select id="scaleSelect">
+                        <option value="2">2x Basic (Free)</option>
+                        <option value="4">4x Pro (HD) - ₹199</option>
+                        <option value="8">8x Ultra (4K) - ₹199</option>
+                    </select>
+                </div>
+                
+                <button type="submit" id="enhanceBtn" class="btn-main">Enhance Now</button>
+            </form>
         </div>
-    </div>
+
+        <div class="preview-container">
+            <div class="preview-box">
+                <h3>Preview</h3>
+                <img id="preview" src="https://via.placeholder.com/300?text=Your+Image" />
+            </div>
+            <div id="resultSection" class="preview-box" style="display:none;">
+                <h3>Result</h3>
+                <img id="result" />
+                <button id="downloadBtn" class="btn-download">Download HD</button>
+            </div>
+        </div>
+    </main>
 
     <script src="script.js"></script>
 </body>
