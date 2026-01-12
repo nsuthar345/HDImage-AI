@@ -1,4 +1,4 @@
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+// Firebase Configuration
 const firebaseConfig = {
     apiKey: "AIzaSyBOJ7YkfIQPzQMi7IjgAA6Rz4t0ta2lsq8",
     authDomain: "hd-image-ai.firebaseapp.com",
@@ -9,13 +9,13 @@ const firebaseConfig = {
     measurementId: "G-PGGD9JFV62"
 };
 
-// 1. Initialize Firebase safely
+// 1. Initialize Firebase
 if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
 }
 const auth = firebase.auth();
 
-// 2. UI ELEMENTS
+// 2. UI ELEMENTS (Dhyan rakhein ki IDs HTML se match karein)
 const elements = {
     loginBtn: document.getElementById("loginBtn"),
     signupBtn: document.getElementById("signupBtn"),
@@ -38,7 +38,7 @@ const handleGoogleAuth = async () => {
         await auth.signInWithPopup(provider);
     } catch (err) {
         console.error("Auth Error:", err);
-        alert("Login Failed: " + err.message + "\nCheck if popups are allowed.");
+        alert("Login Failed: " + err.message);
     }
 };
 
@@ -57,28 +57,28 @@ auth.onAuthStateChanged(user => {
     }
 });
 
-// 4. IMAGE PREVIEW (FIXED)
-elements.imageInput.onchange = () => {
-    const file = elements.imageInput.files[0];
-    if (file) {
-        // Purane memory URL ko clean karna (Better Performance)
-        if (elements.previewImg.src.startsWith('blob:')) {
-            URL.revokeObjectURL(elements.previewImg.src);
-        }
-        
-        const objectURL = URL.createObjectURL(file);
-        elements.previewImg.src = objectURL;
-        
-        // Image ko visible banana
-        elements.previewImg.style.display = "block"; 
-        
-        // Section aur Button reset karna
-        if (elements.resultSection) elements.resultSection.style.display = "none";
-        elements.enhanceBtn.innerHTML = "Enhance Now";
-    }
-};
+// 4. IMAGE PREVIEW (Fixed & Tested)
+if (elements.imageInput) {
+    elements.imageInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        console.log("File selected:", file); // Debugging ke liye
 
-// 5. FORM SUBMISSION & PAYMENT
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                elements.previewImg.src = event.target.result;
+                elements.previewImg.style.display = "block"; // Show image
+                console.log("Image preview loaded");
+            };
+            reader.readAsDataURL(file);
+            
+            if (elements.resultSection) elements.resultSection.style.display = "none";
+            elements.enhanceBtn.innerHTML = "Enhance Now";
+        }
+    });
+}
+
+// 5. FORM SUBMISSION
 elements.uploadForm.onsubmit = async (e) => {
     e.preventDefault();
     const file = elements.imageInput.files[0];
@@ -98,6 +98,7 @@ elements.uploadForm.onsubmit = async (e) => {
     }
 };
 
+// 6. PAYMENT & API (Baaki logic same rahega)
 function startPayment(scale) {
     const options = {
         "key": "YOUR_RAZORPAY_KEY", 
@@ -112,7 +113,6 @@ function startPayment(scale) {
     new Razorpay(options).open();
 }
 
-// 6. API CALL
 async function processImage(scale) {
     elements.enhanceBtn.disabled = true;
     elements.enhanceBtn.innerHTML = "Processing... Please Wait";
