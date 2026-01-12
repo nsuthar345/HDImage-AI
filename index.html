@@ -3,14 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Heensa AI - Stylish Image Cleaner</title>
+    <title>Heensa AI - Clear & Enhance Your Photos</title>
+    
+    <meta name="description" content="Enhance your blurry photos using Heensa AI magic. Professional upscaling up to 8x.">
+    
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+    
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
 </head>
 <body>
+
     <header class="navbar">
         <div class="logo">Heensa<span>AI</span></div>
         <div id="authBox">
@@ -19,21 +24,26 @@
                 <button id="signupBtn" class="btn-main">Sign Up</button>
             </div>
             <div id="loggedInUI" style="display:none; align-items: center; gap: 10px;">
-                <span id="displayUser"></span>
+                <span id="displayUser" style="font-weight: 600; color: #444;"></span>
                 <button id="logoutBtn" class="btn-red">Logout</button>
             </div>
         </div>
     </header>
 
     <main class="content">
-        <h1 class="hero-text">Heensa Image Cleaner</h1>
-        <p class="tagline">Clear blurry photos with AI magic</p>
+        <div class="hero-section">
+            <h1 class="hero-text">Heensa Image Cleaner</h1>
+            <p class="tagline">Clear blurry photos with AI magic in seconds</p>
+        </div>
 
         <div class="main-card">
             <form id="uploadForm">
                 <div class="upload-box">
                     <input type="file" id="imageInput" hidden accept="image/*">
-                    <label for="imageInput" id="dropLabel">Click to Choose Image</label>
+                    <label for="imageInput" id="dropLabel">
+                        <div class="upload-icon">📸</div>
+                        <span>Click to Choose Image</span>
+                    </label>
                 </div>
 
                 <div class="controls-row">
@@ -47,24 +57,30 @@
             </form>
         </div>
 
-        <div id="resultSection" style="display:none;">
+        <div id="resultSection" style="display:none; margin-top: 50px;">
             <div class="visual-compare">
                 <div class="img-wrap">
-                    <p class="label-tag">Original</p>
-                    <img id="preview" src="">
+                    <p class="label-tag">Original Photo</p>
+                    <img id="preview" src="" alt="Original Preview">
                 </div>
+
                 <div class="img-wrap">
-                    <p class="label-tag">Cleaned</p>
-                    <div id="loadingOverlay" class="loader-box" style="display:none;">Processing...</div>
-                    <img id="result" src="">
+                    <p class="label-tag">Cleaned AI Version</p>
+                    <div id="loadingOverlay" class="loader-box" style="display:none;">
+                        <div class="spinner"></div>
+                        <p>AI is cleaning...</p>
+                    </div>
+                    <img id="result" src="" alt="Enhanced Result">
                 </div>
             </div>
-            <div class="action-buttons">
+
+            <div class="action-buttons" style="margin-top: 30px; padding-bottom: 50px;">
                 <button id="downloadBtn" class="btn-dl" style="display:none;">Download Full HD</button>
             </div>
         </div>
     </main>
 
     <script src="script.js"></script>
+
 </body>
 </html>
