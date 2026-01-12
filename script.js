@@ -1,14 +1,15 @@
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyBOJ7YkfIQPzQMi7IjgAA6Rz4t0ta2lsq8",
-  authDomain: "hd-image-ai.firebaseapp.com",
-  projectId: "hd-image-ai",
-  storageBucket: "hd-image-ai.firebasestorage.app",
-  messagingSenderId: "492350131358",
-  appId: "1:492350131358:web:8af497b15f66332379ff8f",
-  measurementId: "G-PGGD9JFV62"
+    apiKey: "AIzaSyBOJ7YkfIQPzQMi7IjgAA6Rz4t0ta2lsq8",
+    authDomain: "hd-image-ai.firebaseapp.com",
+    projectId: "hd-image-ai",
+    storageBucket: "hd-image-ai.firebasestorage.app",
+    messagingSenderId: "492350131358",
+    appId: "1:492350131358:web:8af497b15f66332379ff8f",
+    measurementId: "G-PGGD9JFV62"
 };
-// Initialize Firebase safely
+
+// 1. Initialize Firebase safely
 if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
 }
@@ -56,12 +57,23 @@ auth.onAuthStateChanged(user => {
     }
 });
 
-// 4. IMAGE PREVIEW
+// 4. IMAGE PREVIEW (FIXED)
 elements.imageInput.onchange = () => {
     const file = elements.imageInput.files[0];
     if (file) {
-        elements.previewImg.src = URL.createObjectURL(file);
-        elements.resultSection.style.display = "none";
+        // Purane memory URL ko clean karna (Better Performance)
+        if (elements.previewImg.src.startsWith('blob:')) {
+            URL.revokeObjectURL(elements.previewImg.src);
+        }
+        
+        const objectURL = URL.createObjectURL(file);
+        elements.previewImg.src = objectURL;
+        
+        // Image ko visible banana
+        elements.previewImg.style.display = "block"; 
+        
+        // Section aur Button reset karna
+        if (elements.resultSection) elements.resultSection.style.display = "none";
         elements.enhanceBtn.innerHTML = "Enhance Now";
     }
 };
@@ -88,13 +100,13 @@ elements.uploadForm.onsubmit = async (e) => {
 
 function startPayment(scale) {
     const options = {
-        "key": "YOUR_RAZORPAY_KEY", // Apni Razorpay Key yahan dalein
+        "key": "YOUR_RAZORPAY_KEY", 
         "amount": 19900,
         "currency": "INR",
         "name": "Heensa AI Pro",
         "description": "Premium Image Upscaling",
         "handler": () => processImage(scale),
-        "prefill": { "email": auth.currentUser.email },
+        "prefill": { "email": auth.currentUser ? auth.currentUser.email : "" },
         "theme": { "color": "#38bdf8" }
     };
     new Razorpay(options).open();
@@ -137,4 +149,4 @@ async function processImage(scale) {
     } finally {
         elements.enhanceBtn.disabled = false;
     }
-} 
+}
