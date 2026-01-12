@@ -49,14 +49,14 @@ auth.onAuthStateChanged(user => {
     }
 });
 
-// 2. Instant Preview Logic
+// 2. Instant Preview
 elements.imageInput.addEventListener('change', function(e) {
     const file = e.target.files[0];
     if (file) {
         const reader = new FileReader();
         reader.onload = function(event) {
             elements.previewImg.src = event.target.result;
-            elements.resultImg.src = ""; // Clear old result
+            elements.resultImg.src = "";
             elements.resultSection.style.display = "block";
             elements.downloadBtn.style.display = "none";
             elements.loader.style.display = "none";
@@ -66,7 +66,7 @@ elements.imageInput.addEventListener('change', function(e) {
     }
 });
 
-// 3. Form Submit
+// 3. Form Submit with Updated Pricing Logic
 elements.uploadForm.onsubmit = async (e) => {
     e.preventDefault();
     const file = elements.imageInput.files[0];
@@ -74,15 +74,59 @@ elements.uploadForm.onsubmit = async (e) => {
     const user = auth.currentUser;
 
     if (!file) return alert("Please select a photo first!");
-    if (scale !== "2" && !user) return alert("Please Login to use Pro (4x/8x)!");
-
+    
+    // Check if Pro scale is selected
     if (scale !== "2") {
-        startPayment(scale);
+        if (!user) return alert("Please Login to use Pro (4x/8x)!");
+        startPayment(scale); // Payment trigger karega
     } else {
-        processImage(scale);
+        processImage(scale); // Free scale seedha chalega
     }
 };
 
+// 4. Razorpay Payment Logic (₹199 for 4x and ₹299 for 8x)
+function startPayment(scale) {
+    let finalAmount = 0;
+    let planName = "";
+
+    if (scale === "4") {
+        finalAmount = 19900; // ₹199
+        planName = "Pro 4x HD (1 Year Access)";
+    } else if (scale === "8") {
+        finalAmount = 29900; // ₹299
+        planName = "Ultra 8x 4K (1 Year Access)";
+    }
+
+    const options = {
+        "key": "rzp_test_S35DJEe4lmg5Rm", // Replace with your LIVE KEY when ready
+        "amount": finalAmount,
+        "currency": "INR",
+        "name": "N & H Deep Resolution",
+        "description": planName,
+        "image": "https://cdn-icons-png.flaticon.com/512/2091/2091665.png", 
+        "handler": function (response) {
+            console.log("Payment Successful:", response.razorpay_payment_id);
+            processImage(scale);
+        },
+        "prefill": {
+            "name": auth.currentUser ? auth.currentUser.displayName : "",
+            "email": auth.currentUser ? auth.currentUser.email : ""
+        },
+        "theme": {
+            "color": "#38bdf8"
+        }
+    };
+
+    const rzp1 = new Razorpay(options);
+    
+    rzp1.on('payment.failed', function (response){
+        alert("Payment Failed: " + response.error.description);
+    });
+
+    rzp1.open();
+}
+
+// 5. Image Processing
 async function processImage(scale) {
     elements.enhanceBtn.disabled = true;
     elements.enhanceBtn.innerHTML = "Processing...";
@@ -113,7 +157,7 @@ async function processImage(scale) {
         elements.downloadBtn.onclick = () => {
             const a = document.createElement("a");
             a.href = url;
-            a.download = `heensa_cleaned_${scale}x.png`;
+            a.download = `nh_cleaned_${scale}x.png`;
             a.click();
         };
     } catch (err) {
@@ -123,51 +167,4 @@ async function processImage(scale) {
     } finally {
         elements.enhanceBtn.disabled = false;
     }
-}
-
-function startPayment(scale) {
-    const options = {
-        "key": "YOUR_RAZORPAY_KEY", 
-        "amount": 19900,
-        "currency": "INR",
-        "name": "Heensa AI Pro",
-        "handler": () => processImage(scale),
-        "prefill": { "email": auth.currentUser.email },
-        "theme": { "color": "#38bdf8" }
-    };
-    new Razorpay(options).open();
-}
-// Is function ko script.js mein replace karein
-function startPayment(scale) {
-    const amountInPaise = 19900; // ₹199 = 19900 paise
-
-    const options = {
-        "key": "rzp_test_S35DJEe4lmg5Rm", // <-- Apni API Key yahan dalein
-        "amount": amountInPaise,
-        "currency": "INR",
-        "name": "Heensa AI Pro",
-        "description": `Upgrade to ${scale}x Ultra HD Quality`,
-        "image": "https://your-logo-url.com/logo.png", // Optional: Aapka logo
-        "handler": function (response) {
-            // Payment successful hone par ye chalega
-            console.log("Payment ID:", response.razorpay_payment_id);
-            processImage(scale); // Payment ke baad image process shuru hogi
-        },
-        "prefill": {
-            "name": auth.currentUser ? auth.currentUser.displayName : "",
-            "email": auth.currentUser ? auth.currentUser.email : ""
-        },
-        "theme": {
-            "color": "#38bdf8" // Website ka blue color
-        }
-    };
-
-    const rzp1 = new Razorpay(options);
-    
-    // Agar payment fail ho jaye
-    rzp1.on('payment.failed', function (response){
-        alert("Payment Failed: " + response.error.description);
-    });
-
-    rzp1.open();
 }
