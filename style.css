@@ -33,68 +33,87 @@ select { flex: 1; padding: 12px; border-radius: 10px; border: 1px solid #ddd; ou
 
 @media (max-width: 600px) { .hero-text { font-size: 32px; } .main-card { width: 90%; } }
 
-/* Contact Strip Styling */
-.contact-strip {
-    background: var(--dark); /* Dark background (Jo aapne pehle define kiya tha) */
-    color: white;
-    padding: 12px 5%;
-    position: relative;
-    width: 100%;
-    margin-top: 50px;
-    font-size: 14px;
+/* --- Support Section Styling (Contact Us) --- */
+.support-container {
+    margin-top: 60px;
+    padding: 40px 20px;
+    background-color: #fcfdfe; /* Halki chamak ke liye */
+    border-top: 1px solid #f1f5f9;
+    text-align: center;
 }
 
-.strip-content {
+.support-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 20px;
+}
+
+.support-links {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 20px;
-    flex-wrap: wrap; /* Mobile par automatic niche lane ke liye */
+    gap: 15px;
+    flex-wrap: wrap; /* Mobile par niche lane ke liye */
 }
 
-.contact-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.contact-item a {
-    color: var(--blue); /* Blue color links ke liye */
+.s-link {
+    color: #0f172a; /* Dark text */
     text-decoration: none;
-    transition: 0.3s;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 12px 24px;
+    background: #ffffff;
+    border-radius: 50px; /* Pill shape */
+    transition: all 0.3s ease;
+    border: 1px solid #e2e8f0;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
 }
 
-.contact-item a:hover {
-    text-decoration: underline;
-    color: white;
+/* Hover Effect */
+.s-link:hover {
+    background: #ffffff;
+    border-color: #38bdf8; /* Blue border on hover */
+    color: #38bdf8;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(56, 189, 248, 0.15);
 }
 
-.contact-divider {
-    color: #475569;
+.s-link span {
+    font-size: 18px;
 }
 
-.icon {
-    font-size: 16px;
+.dot-sep {
+    color: #cbd5e1;
+    font-size: 20px;
+    font-weight: bold;
 }
 
-/* --- Mobile Responsive CSS --- */
+/* --- Mobile Responsive Support --- */
 @media (max-width: 600px) {
-    .contact-strip {
-        padding: 15px 10px;
+    .support-links {
+        flex-direction: column; /* Mobile par buttons ek ke niche ek */
+        gap: 12px;
     }
     
-    .strip-content {
-        flex-direction: column; /* Mobile par ek ke niche ek dikhega */
-        gap: 10px;
-        text-align: center;
+    .dot-sep {
+        display: none; /* Mobile par dot chupa dein */
     }
     
-    .contact-divider {
-        display: none; /* Mobile par pipe (|) symbol hata dega */
-    }
-    
-    .contact-item {
-        font-size: 13px;
+    .s-link {
+        width: 100%; /* Full width mobile par */
+        max-width: 320px;
         justify-content: center;
+        padding: 14px 20px;
+    }
+    
+    .support-container {
+        margin-top: 40px;
+        padding: 30px 15px;
     }
 }
