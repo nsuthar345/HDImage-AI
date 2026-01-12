@@ -14,11 +14,12 @@ const auth = firebase.auth();
 const slider = document.getElementById("imageSlider");
 const sliderWrapper = document.getElementById("sliderWrapper");
 
-if(slider) {
-    slider.oninput = (e) => {
+if(slider && sliderWrapper) {
+    slider.addEventListener('input', (e) => {
         const value = e.target.value;
+        // Sirf upar wali image ki width change hogi, photo nahi hilegi
         sliderWrapper.style.width = value + "%";
-    };
+    });
 }
 
 // REST OF THE CODE (PRICING & API)
