@@ -9,9 +9,43 @@ body { background: #ffffff; color: var(--dark); overflow-x: hidden; }
 
 /* Navbar */
 .navbar { display: flex; justify-content: space-between; align-items: center; padding: 15px 8%; background: #fff; border-bottom: 1px solid #f1f5f9; position: sticky; top:0; z-index:100; }
-.logo { font-size: 26px; font-weight: 800; }
-.logo span { color: var(--blue); }
+/* Logo Grouping */
+.logo-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Logo aur name left-aligned rahenge */
+    line-height: 1; /* Space kam karne ke liye */
+}
 
+.logo {
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+.logo span {
+    color: var(--blue);
+}
+
+/* Chota sub-name niche */
+.sub-logo {
+    font-size: 10px;
+    font-weight: 600;
+    color: #64748b; /* Soft gray color */
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    margin-top: 2px;
+}
+
+/* Mobile par navbar adjustment */
+@media (max-width: 600px) {
+    .logo {
+        font-size: 22px;
+    }
+    .sub-logo {
+        font-size: 8px;
+    }
+}
 /* Pixelcut Style Hero Section */
 .ad-hero { padding: 80px 8% 40px; background: radial-gradient(circle at top right, #f0f9ff, #ffffff); }
 .ad-container { display: flex; align-items: center; gap: 50px; flex-wrap: wrap; }
