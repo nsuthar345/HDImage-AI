@@ -146,7 +146,7 @@ select { flex: 1; padding: 15px; border-radius: 12px; border: 1px solid #ddd; ou
 
 /* Support & Footer */
 .support-container { padding: 40px 20px; text-align: center; border-top: 1px solid #f1f5f9; }
-.s-link { text-decoration: none; color: var(--dark); font-weight: 600; padding: 12px 20px; background: #f1f5f9; border-radius: 50px; margin: 5px; display: inline-block; transition: 0.3s; }
+.s-link { text-decoration: none; color: var(--dark); font-weight: 400; padding: 12px 20px; background: #f1f5f9; border-radius: 50px; margin: 5px; display: inline-block; transition: 0.3s; }
 .s-link:hover { background: var(--blue); color: white; }
 
 /* Mobile Fixes */
