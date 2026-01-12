@@ -13,12 +13,12 @@
 
 html, body {
     max-width: 100%;
-    overflow-x: hidden; /* Horizontal scroll khatam */
+    overflow-x: hidden;
     background: #ffffff;
     color: var(--dark);
 }
 
-/* --- Navbar & Logo Fix --- */
+/* --- Navbar & Logo (Strictly Desktop Look on Mobile) --- */
 .navbar {
     display: flex;
     justify-content: space-between;
@@ -31,20 +31,16 @@ html, body {
 .logo-wrapper {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: flex-start; /* Desktop par left aligned */
+    align-items: flex-start;
 }
 
 .logo {
     font-size: 30px;
     font-weight: 800;
     line-height: 1;
-    margin: 0;
 }
 
-.logo span {
-    color: var(--blue);
-}
+.logo span { color: var(--blue); }
 
 .sub-logo {
     font-size: 15px;
@@ -52,8 +48,8 @@ html, body {
     color: #000000;
     letter-spacing: 1px;
     text-transform: uppercase;
-    margin-top: 2px;
     line-height: 1;
+    margin-top: 2px;
 }
 
 /* --- Hero Section --- */
@@ -69,11 +65,7 @@ html, body {
     flex-wrap: wrap; 
 }
 
-.ad-text { 
-    flex: 1; 
-    min-width: 300px; 
-    text-align: left; 
-}
+.ad-text { flex: 1; min-width: 300px; }
 
 .hero-title { 
     font-size: 56px; 
@@ -88,12 +80,6 @@ html, body {
     -webkit-text-fill-color: transparent; 
 }
 
-.ad-text p { 
-    font-size: 20px; 
-    color: #64748b; 
-    margin-bottom: 30px; 
-}
-
 .badge { 
     display: inline-block; 
     padding: 6px 14px; 
@@ -102,10 +88,9 @@ html, body {
     border-radius: 50px; 
     font-size: 12px; 
     font-weight: 700; 
-    letter-spacing: 1px; 
 }
 
-/* --- Comparison Slider (Freeze Mode) --- */
+/* --- Comparison Slider (ULTIMATE FREEZE FIX) --- */
 .comparison-slider { 
     flex: 1; 
     min-width: 300px; 
@@ -121,20 +106,19 @@ html, body {
     border-radius: 20px;
     overflow: hidden;
     box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-    user-select: none;
-    touch-action: pan-y; /* Mobile scroll fix */
 }
 
-/* Images ko freeze karne ke liye rules */
+/* YAHAN SE FREEZE LOGIC START HAI */
 .before-after-container img {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100% !important; /* Fixed width relative to container */
-    height: 100% !important;
-    object-fit: cover; /* No zoom, perfect fit */
-    display: block;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Image hamesha center mein freeze rahegi */
+    width: 500px !important; /* Container ki max-width ke barabar fixed */
+    height: 400px !important; /* Container ki height ke barabar fixed */
+    object-fit: cover;
     pointer-events: none;
+    max-width: none !important; /* Responsive behavior ko override kiya */
 }
 
 .before-img-wrapper {
@@ -148,22 +132,19 @@ html, body {
     border-right: 3px solid white;
 }
 
-.before-img {
-    filter: blur(8px);
-}
+/* Blur effect sirf upar wali image par */
+.before-img { filter: blur(8px); }
 
-/* Range Slider Control */
+/* Slider Handle */
 .slider {
     position: absolute;
     -webkit-appearance: none;
-    appearance: none;
     width: 100%;
     height: 100%;
     background: transparent;
     z-index: 10;
     cursor: ew-resize;
     outline: none;
-    margin: 0;
     top: 0;
     left: 0;
 }
@@ -175,7 +156,6 @@ html, body {
     background: white;
     border: 3px solid var(--blue);
     border-radius: 50%;
-    cursor: ew-resize;
     box-shadow: 0 0 10px rgba(0,0,0,0.3);
 }
 
@@ -187,7 +167,6 @@ html, body {
     padding: 40px; 
     border-radius: 30px; 
     box-shadow: 0 20px 40px rgba(0,0,0,0.05); 
-    border: 1px solid #f1f5f9; 
 }
 
 #dropLabel { 
@@ -197,66 +176,42 @@ html, body {
     padding: 40px; 
     border: 2px dashed #cbd5e1; 
     border-radius: 20px; 
-    cursor: pointer; 
     background: #f8fafc; 
 }
 
-.upload-icon { font-size: 40px; margin-bottom: 10px; }
+.controls-row { display: flex; gap: 10px; margin-top: 20px; }
 
-.controls-row { 
-    display: flex; 
-    gap: 10px; 
-    margin-top: 20px; 
-}
-
-select { 
-    flex: 1; 
-    padding: 15px; 
-    border-radius: 12px; 
-    border: 1px solid #ddd; 
-    outline: none; 
-}
-
-.btn-main { background: var(--blue); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 700; cursor: pointer; }
 .btn-go { background: var(--dark); color: white; padding: 15px 30px; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; }
-.btn-red { background: #fee2e2; color: #ef4444; border: none; padding: 10px 20px; border-radius: 10px; font-weight: 700; }
-.btn-dl { background: #22c55e; color: white; border: none; padding: 18px 40px; border-radius: 15px; font-weight: 800; cursor: pointer; margin-top: 30px; }
 
-/* --- Footer --- */
-.support-container { padding: 40px 20px; text-align: center; border-top: 1px solid #f1f5f9; }
-.s-link { text-decoration: none; color: var(--dark); padding: 12px 20px; background: #f1f5f9; border-radius: 50px; margin: 5px; display: inline-block; }
-
-/* --- MOBILE RESPONSIVE (Strictly Desktop Look) --- */
+/* --- MOBILE STYLING (SAME AS DESKTOP) --- */
 @media (max-width: 768px) {
+    /* Navbar fix */
     .navbar {
         padding: 10px 15px !important;
-        flex-direction: row !important; /* Elements side-by-side rahenge */
+        flex-direction: row !important;
+        justify-content: space-between !important;
     }
 
-    .logo-wrapper {
-        align-items: flex-start !important; /* Text left se hi start hoga */
-        text-align: left !important;
-    }
-
-    .logo {
-        font-size: 24px !important;
-    }
-
-    .sub-logo {
-        font-size: 9px !important;
+    .logo-wrapper { align-items: flex-start !important; }
+    .logo { font-size: 24px !important; }
+    .sub-logo { 
+        font-size: 9px !important; 
         letter-spacing: 4px !important;
         display: block !important;
     }
 
-    .ad-hero { padding: 40px 5%; }
-    .hero-title { font-size: 32px; text-align: center; }
-    .ad-text { text-align: center; }
-    
+    /* Slider Freeze on Mobile */
     .before-after-container {
-        height: 280px !important; /* Mobile height fixed */
-        width: 100%;
+        height: 300px !important; /* Mobile ki choti screen ke liye container */
     }
 
+    .before-after-container img {
+        width: 100% !important; /* Mobile par screen width ke hisab se freeze */
+        height: 300px !important;
+        transform: translate(-50%, -50%);
+    }
+
+    .hero-title { font-size: 32px; text-align: center; }
+    .ad-text { text-align: center; }
     .controls-row { flex-direction: column; }
-    .main-card { width: 92%; padding: 20px; }
 }
