@@ -18,7 +18,7 @@
                 <button id="loginBtn" class="btn-text">Login</button>
                 <button id="signupBtn" class="btn-main">Sign Up</button>
             </div>
-            <div id="loggedInUI" style="display:none;">
+            <div id="loggedInUI" style="display:none; align-items: center; gap: 10px;">
                 <span id="displayUser"></span>
                 <button id="logoutBtn" class="btn-red">Logout</button>
             </div>
@@ -30,43 +30,39 @@
         <p class="tagline">Clear blurry photos with AI magic</p>
 
         <div class="main-card">
-            <div class="upload-box">
-                <input type="file" id="imageInput" hidden accept="image/*">
-                <label for="imageInput" id="dropLabel">Click to Choose Image</label>
-            </div>
+            <form id="uploadForm">
+                <div class="upload-box">
+                    <input type="file" id="imageInput" hidden accept="image/*">
+                    <label for="imageInput" id="dropLabel">Click to Choose Image</label>
+                </div>
 
-            <div class="main-card">
-    <form id="uploadForm"> <div class="upload-box">
-            <input type="file" id="imageInput" hidden accept="image/*">
-            <label for="imageInput" id="dropLabel">Click to Choose Image</label>
-        </div>
-
-        <div class="controls-row">
-            <select id="scaleSelect">
-                <option value="2">Basic 2x (Free)</option>
-                <option value="4">Pro 4x (HD) - ₹199</option>
-                <option value="8">Ultra 8x (4K) - ₹199</option>
-            </select>
-            <button type="submit" id="enhanceBtn" class="btn-go">Enhance Now</button>
-        </div>
-    </form>
-</div>
+                <div class="controls-row">
+                    <select id="scaleSelect">
+                        <option value="2">Basic 2x (Free)</option>
+                        <option value="4">Pro 4x (HD) - ₹199</option>
+                        <option value="8">Ultra 8x (4K) - ₹199</option>
+                    </select>
+                    <button type="submit" id="enhanceBtn" class="btn-go">Enhance Now</button>
+                </div>
+            </form>
         </div>
 
         <div id="resultSection" style="display:none;">
             <div class="visual-compare">
-                <div class="img-wrap"><span>Original</span><img id="preview"></div>
-                <div class="img-wrap"><span>Cleaned</span><img id="result"></div>
+                <div class="img-wrap">
+                    <p class="label-tag">Original</p>
+                    <img id="preview" src="">
+                </div>
+                <div class="img-wrap">
+                    <p class="label-tag">Cleaned</p>
+                    <div id="loadingOverlay" class="loader-box" style="display:none;">Processing...</div>
+                    <img id="result" src="">
+                </div>
             </div>
-            <button id="downloadBtn" class="btn-dl">Download Full HD</button>
+            <div class="action-buttons">
+                <button id="downloadBtn" class="btn-dl" style="display:none;">Download Full HD</button>
+            </div>
         </div>
-        <input type="file" id="imageInput" accept="image/*" style="display: none;">
-
-<label id="dropLabel" for="imageInput">
-    Click to Choose Image
-</label>
-
-<img id="preview" src="" style="display: none; max-width: 100%; margin: 20px auto; border-radius: 10px;">
     </main>
 
     <script src="script.js"></script>
