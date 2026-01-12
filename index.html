@@ -1,29 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>AI Image Enhancer</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <title>HD Image AI</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<h1>AI Image Enhancer</h1>
+    <h1>AI Image Enhancer</h1>
 
-<input type="file" id="imageInput">
-<br><br>
+    <form id="uploadForm">
+        <input type="file" id="imageInput" accept="image/*" />
+        <br><br>
+        <button type="submit">Enhance</button>
+    </form>
 
-<select id="scale">
-  <option value="2">2× Enhance</option>
-  <option value="4">4× Enhance</option>
-  <option value="8">8× Enhance</option>
-</select>
+    <h3>Preview:</h3>
+    <img id="preview" width="300" />
 
-<br><br>
-<button onclick="uploadImage()">Enhance Image</button>
+    <h3>Result:</h3>
+    <img id="result" width="300" />
 
-<br><br>
-<img id="result" />
-
-<script src="script.js"></script>
+    <!-- VERY IMPORTANT -->
+    <script src="script.js"></script>
 </body>
 </html>
