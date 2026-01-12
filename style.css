@@ -32,3 +32,4 @@ select { flex: 1; padding: 12px; border-radius: 10px; border: 1px solid #ddd; ou
 .btn-dl { background: #22c55e; color: white; border: none; padding: 15px 30px; border-radius: 10px; font-weight: 700; cursor: pointer; margin-top: 20px; font-size: 16px; }
 
 @media (max-width: 600px) { .hero-text { font-size: 32px; } .main-card { width: 90%; } }
+
