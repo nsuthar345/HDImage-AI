@@ -35,15 +35,15 @@ select { flex: 1; padding: 12px; border-radius: 10px; border: 1px solid #ddd; ou
 
 /* --- Support Section Styling (Contact Us) --- */
 .support-container {
-    margin-top: 5px;
+    margin-top: 12px;
     padding: 10px 10px;
     background-color: #fcfdfe; /* Halki chamak ke liye */
     border-top: 1px solid #f1f5f9;
-    text-align: right;
+    text-align: center;
 }
 
 .support-title {
-    font-size: 7px;
+    font-size:12px;
     font-weight: 400;
     color: #94a3b8;
     text-transform: uppercase;
@@ -54,7 +54,7 @@ select { flex: 1; padding: 12px; border-radius: 10px; border: 1px solid #ddd; ou
 .support-links {
     display: flex;
     justify-content: right;
-    align-items: right;
+    align-items: center;
     gap: 5px;
     flex-wrap: wrap; /* Mobile par niche lane ke liye */
 }
@@ -62,7 +62,7 @@ select { flex: 1; padding: 12px; border-radius: 10px; border: 1px solid #ddd; ou
 .s-link {
     color: #0f172a; /* Dark text */
     text-decoration: none;
-    font-size: 7px;
+    font-size: 12px;
     font-weight: 400;
     padding: 12px 14px;
     background: #ffffff;
@@ -70,7 +70,7 @@ select { flex: 1; padding: 12px; border-radius: 10px; border: 1px solid #ddd; ou
     transition: all 0.3s ease;
     border: 1px solid #e2e8f0;
     display: inline-flex;
-    align-items: right;
+    align-items: center;
     gap: 10px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.02);
 }
@@ -90,7 +90,7 @@ select { flex: 1; padding: 12px; border-radius: 10px; border: 1px solid #ddd; ou
 
 .dot-sep {
     color: #cbd5e1;
-    font-size: 7px;
+    font-size:12px;
     font-weight: bold;
 }
 
