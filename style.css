@@ -51,7 +51,6 @@ html, body {
     line-height: 1;
     margin-top: 2px;
 }
-
 /* --- Hero Section --- */
 .ad-hero { 
     padding: 80px 8% 40px; 
@@ -106,36 +105,44 @@ html, body {
     border-radius: 20px;
     overflow: hidden;
     box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    margin: 0 auto;
 }
 
-/* YAHAN SE FREEZE LOGIC START HAI */
+/* Dono images ko background mein lock kar diya */
 .before-after-container img {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%); /* Image hamesha center mein freeze rahegi */
-    width: 500px !important; /* Container ki max-width ke barabar fixed */
-    height: 400px !important; /* Container ki height ke barabar fixed */
+    top: 0;
+    left: 0;
+    width: 500px !important; /* FIXED: Ye kabhi change nahi hoga */
+    height: 400px !important; /* FIXED: Ye bhi change nahi hoga */
     object-fit: cover;
+    display: block;
     pointer-events: none;
-    max-width: none !important; /* Responsive behavior ko override kiya */
 }
 
+/* Wrapper jo image ko cut karega bina image ko resize kiye */
 .before-img-wrapper {
     position: absolute;
     top: 0;
     left: 0;
-    width: 50%;
+    width: 50%; /* JS isse change karega */
     height: 100%;
-    overflow: hidden;
+    overflow: hidden; /* Ye image ko "crop" karega, "resize" nahi */
     z-index: 2;
     border-right: 3px solid white;
 }
 
-/* Blur effect sirf upar wali image par */
-.before-img { filter: blur(8px); }
+/* Image hamesha full width rahegi wrapper ke andar bhi */
+.before-img-wrapper img {
+    width: 500px !important; /* Wrapper chota ho jaye par image 500px hi rahegi */
+    max-width: none !important;
+}
 
-/* Slider Handle */
+.before-img {
+    filter: blur(8px);
+}
+
+/* Invisible Range Input */
 .slider {
     position: absolute;
     -webkit-appearance: none;
@@ -156,9 +163,8 @@ html, body {
     background: white;
     border: 3px solid var(--blue);
     border-radius: 50%;
-    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    cursor: pointer;
 }
-
 /* --- Tool Card & Buttons --- */
 .main-card { 
     background: white; 
@@ -215,3 +221,19 @@ html, body {
     .ad-text { text-align: center; }
     .controls-row { flex-direction: column; }
 }
+@media (max-width: 768px) {
+    .navbar { padding: 10px 15px !important; }
+    .logo { font-size: 24px !important; }
+    .sub-logo { font-size: 9px !important; letter-spacing: 3px !important; display: block !important; }
+
+    /* Mobile par container ka size chota, par image freeze */
+    .before-after-container {
+        height: 300px !important;
+    }
+
+    .before-after-container img, 
+    .before-img-wrapper img {
+        width: 100vw !important; /* Screen ki full width par freeze */
+        height: 300px !important;
+        object-fit: cover;
+    }
