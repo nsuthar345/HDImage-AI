@@ -1,31 +1,31 @@
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>HD Image AI</title>
+    <title>HD Image AI</title>    
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
     <h1>AI Image Enhancer</h1>
 
     <form id="uploadForm">
         <input type="file" id="imageInput" accept="image/*" />
         <br><br>
-        <button type="submit">Enhance</button>
+        <button type="submit" id="enhanceBtn">Enhance</button>
     </form>
 
-    <h3>Preview:</h3>
-    <img id="preview" width="300" />
+    <div class="container">
+        <h3>Preview:</h3>
+        <img id="preview" width="300" />
 
-    <h3>Result:</h3>
-    <img id="result" width="300" />
-    <h3>Result:</h3>
-<img id="result" width="300" />
-<br><br>
-<button id="downloadBtn" style="display: none; background: #38bdf8;">Download Image</button>
+        <div id="resultSection" style="display: none;">
+            <h3>Result:</h3>
+            <img id="result" width="300" />
+            <br><br>
+            <button id="downloadBtn" class="download-style">Download High-Res Image</button>
+        </div>
+    </div>
 
-    <!-- VERY IMPORTANT -->
     <script src="script.js"></script>
 </body>
 </html>
