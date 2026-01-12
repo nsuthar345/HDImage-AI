@@ -79,7 +79,7 @@ body { background: #ffffff; color: var(--dark); overflow-x: hidden; }
     .sub-logo {
         font-size: 9px !important; 
         color: #000000 !important;
-        letter-spacing: 0.5px !important;
+        letter-spacing: 3px !important;
         margin-top: 2px !important;
         font-weight: 600 !important;
         line-height: 1 !important;
