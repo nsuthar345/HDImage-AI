@@ -83,7 +83,6 @@ body { background: #ffffff; color: var(--dark); overflow-x: hidden; }
         margin-top: 2px !important;
         font-weight: 600 !important;
         line-height: 1 !important;
-        display: block !important;
     }
 }
 /* Pixelcut Style Hero Section */
