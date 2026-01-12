@@ -11,21 +11,24 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
 </head>
 <body>
-    <header class="navbar">
+   <header class="navbar">
+    <div class="logo-wrapper">
         <div class="logo">Heensa<span>AI</span></div>
         <div class="sub-logo">Heenu-Naresh</div>
-        <div id="authBox">
-            <div id="loggedOutUI">
-                <button id="loginBtn" class="btn-main">Login</button>
-                <div style="width: 15px; display: inline-block;"></div>
-                <button id="signupBtn" class="btn-main">Sign Up</button>
-            </div>
-            <div id="loggedInUI" style="display:none; align-items: center; gap: 15px;">
-                <span id="displayUser" style="font-weight: 600;"></span>
-                <button id="logoutBtn" class="btn-red">Logout</button>
-            </div>
+    </div>
+
+    <div id="authBox">
+        <div id="loggedOutUI">
+            <button id="loginBtn" class="btn-main">Login</button>
+            <div style="width: 15px; display: inline-block;"></div>
+            <button id="signupBtn" class="btn-main">Sign Up</button>
         </div>
-    </header>
+        <div id="loggedInUI" style="display:none; align-items: center; gap: 15px;">
+            <span id="displayUser" style="font-weight: 600;"></span>
+            <button id="logoutBtn" class="btn-red">Logout</button>
+        </div>
+    </div>
+</header>
 
     <main class="content">
         <section class="ad-hero">
