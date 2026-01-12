@@ -12,7 +12,7 @@ function uploadImage() {
   formData.append("image", file);
   formData.append("scale", scale);
 
-  fetch("http://127.0.0.1:5000/enhance", {
+ fetch("https://hdimage-ai-backend.onrender.com/enhance", {
     method: "POST",
     body: formData
   })
