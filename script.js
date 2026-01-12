@@ -1,13 +1,13 @@
-// 1. FIREBASE CONFIGURATION
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-    apiKey: "AIzaSy...", // yahan apni real key dalein
-    authDomain: "hd-image-ai.firebaseapp.com",
-    projectId: "hd-image-ai",
-    storageBucket: "hd-image-ai.appspot.com",
-    messagingSenderId: "492350131358",
-    appId: "1:492350131358:web:8af497b15f66332379ff8f" //
+  apiKey: "AIzaSyBOJ7YkfIQPzQMi7IjgAA6Rz4t0ta2lsq8",
+  authDomain: "hd-image-ai.firebaseapp.com",
+  projectId: "hd-image-ai",
+  storageBucket: "hd-image-ai.firebasestorage.app",
+  messagingSenderId: "492350131358",
+  appId: "1:492350131358:web:8af497b15f66332379ff8f",
+  measurementId: "G-PGGD9JFV62"
 };
-
 // Initialize Firebase safely
 if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
