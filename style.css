@@ -227,16 +227,60 @@ html, body {
         flex-direction: row !important;
     }
 
-    .logo-wrapper { align-items: flex-start !important; }
-    .logo { font-size: 22px !important; }
-    .sub-logo { font-size: 8px !important; letter-spacing: 3px !important; display: block !important; }
+    .logo { font-size: 24px !important; }
+    .sub-logo { font-size: 9px !important; letter-spacing: 3px !important; }
 
-    /* Mobile par image ko freeze rakhne ke liye wrapper ki image size lock */
+    /* Mobile par Picture Center aur Size Fix */
     .before-after-container {
-        max-width: 90vw; /* Screen se bahar nahi jayega */
+        height: 300px; /* Mobile par height thodi kam */
+        width: 95%; /* Side se thoda gap */
+        margin: 0 auto;
+    }
+
+    .before-after-container img {
+        height: 100%;
+        width: 100%;
+    }
+
+    .before-img-wrapper img {
+        width: calc(100vw - 40px) !important; /* Mobile container ke barabar freeze */
+        height: 300px !important;
     }
     
-    .before-img-wrapper img {
-        width: calc(90vw) !important; /* Mobile ki container width ke barabar freeze */
-    }
+    .ad-hero { padding: 30px 5%; }
+}
+
+/* Tool Card & Buttons */
+.main-card {
+    background: white;
+    width: 90%;
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+.support-container { 
+    padding: 60px 20px; 
+    text-align: center; 
+    border-top: 1px solid #f1f5f9; 
+    background: #ffffff;
+}
+
+.s-link { 
+    text-decoration: none; 
+    color: var(--dark); 
+    font-weight: 400; 
+    padding: 12px 24px; 
+    background: #f1f5f9; 
+    border-radius: 50px; 
+    margin: 8px; 
+    display: inline-block; 
+    transition: 0.3s ease; 
+}
+
+.s-link:hover { 
+    background: var(--blue); 
+    color: white; 
+    transform: translateY(-2px);
 }
