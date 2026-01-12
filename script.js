@@ -1,170 +1,95 @@
-// Firebase Configuration
-const firebaseConfig = {
-    apiKey: "AIzaSyBOJ7YkfIQPzQMi7IjgAA6Rz4t0ta2lsq8",
-    authDomain: "hd-image-ai.firebaseapp.com",
-    projectId: "hd-image-ai",
-    storageBucket: "hd-image-ai.firebasestorage.app",
-    messagingSenderId: "492350131358",
-    appId: "1:492350131358:web:8af497b15f66332379ff8f"
-};
-
-if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-
-const elements = {
-    loginBtn: document.getElementById("loginBtn"),
-    signupBtn: document.getElementById("signupBtn"),
-    logoutBtn: document.getElementById("logoutBtn"),
-    loggedInUI: document.getElementById("loggedInUI"),
-    loggedOutUI: document.getElementById("loggedOutUI"),
-    userName: document.getElementById("displayUser"),
-    imageInput: document.getElementById("imageInput"),
-    previewImg: document.getElementById("preview"),
-    resultImg: document.getElementById("result"),
-    resultSection: document.getElementById("resultSection"),
-    enhanceBtn: document.getElementById("enhanceBtn"),
-    uploadForm: document.getElementById("uploadForm"),
-    loader: document.getElementById("loadingOverlay"),
-    downloadBtn: document.getElementById("downloadBtn")
-};
-
-// 1. Auth Logic
-const handleGoogleAuth = async () => {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    try { await auth.signInWithPopup(provider); } catch (err) { alert("Login Failed"); }
-};
-
-if (elements.loginBtn) elements.loginBtn.onclick = handleGoogleAuth;
-if (elements.signupBtn) elements.signupBtn.onclick = handleGoogleAuth;
-if (elements.logoutBtn) elements.logoutBtn.onclick = () => auth.signOut();
-
-auth.onAuthStateChanged(user => {
-    if (user) {
-        elements.loggedOutUI.style.display = "none";
-        elements.loggedInUI.style.display = "flex";
-        elements.userName.innerText = "Hi, " + user.displayName.split(' ')[0];
-    } else {
-        elements.loggedOutUI.style.display = "flex";
-        elements.loggedInUI.style.display = "none";
-    }
-});
-
-// 2. Instant Preview
-elements.imageInput.addEventListener('change', function(e) {
-    const file = e.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function(event) {
-            elements.previewImg.src = event.target.result;
-            elements.resultImg.src = "";
-            elements.resultSection.style.display = "block";
-            elements.downloadBtn.style.display = "none";
-            elements.loader.style.display = "none";
-            elements.resultSection.scrollIntoView({ behavior: 'smooth' });
-        };
-        reader.readAsDataURL(file);
-    }
-});
-
-// 3. Form Submit with Updated Pricing Logic
-elements.uploadForm.onsubmit = async (e) => {
-    e.preventDefault();
-    const file = elements.imageInput.files[0];
-    const scale = document.getElementById("scaleSelect").value;
-    const user = auth.currentUser;
-
-    if (!file) return alert("Please select a photo first!");
-    
-    // Check if Pro scale is selected
-    if (scale !== "2") {
-        if (!user) return alert("Please Login to use Pro (4x/8x)!");
-        startPayment(scale); // Payment trigger karega
-    } else {
-        processImage(scale); // Free scale seedha chalega
-    }
-};
-
-// 4. Razorpay Payment Logic (₹199 for 4x and ₹299 for 8x)
-function startPayment(scale) {
-    let finalAmount = 0;
-    let planName = "";
-
-    if (scale === "4") {
-        finalAmount = 19900; // ₹199
-        planName = "Pro 4x HD (1 Year Access)";
-    } else if (scale === "8") {
-        finalAmount = 29900; // ₹299
-        planName = "Ultra 8x 4K (1 Year Access)";
-    }
-
-    const options = {
-        "key": "rzp_test_S35DJEe4lmg5Rm", // Replace with your LIVE KEY when ready
-        "amount": finalAmount,
-        "currency": "INR",
-        "name": "N & H Deep Resolution",
-        "description": planName,
-        "image": "https://cdn-icons-png.flaticon.com/512/2091/2091665.png", 
-        "handler": function (response) {
-            console.log("Payment Successful:", response.razorpay_payment_id);
-            processImage(scale);
-        },
-        "prefill": {
-            "name": auth.currentUser ? auth.currentUser.displayName : "",
-            "email": auth.currentUser ? auth.currentUser.email : ""
-        },
-        "theme": {
-            "color": "#38bdf8"
-        }
-    };
-
-    const rzp1 = new Razorpay(options);
-    
-    rzp1.on('payment.failed', function (response){
-        alert("Payment Failed: " + response.error.description);
-    });
-
-    rzp1.open();
+:root {
+    --blue: #38bdf8;
+    --dark: #0f172a;
+    --grad: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
 }
 
-// 5. Image Processing
-async function processImage(scale) {
-    elements.enhanceBtn.disabled = true;
-    elements.enhanceBtn.innerHTML = "Processing...";
-    elements.loader.style.display = "block";
-    elements.resultImg.style.opacity = "0.3";
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; }
+body { background: #ffffff; color: var(--dark); overflow-x: hidden; }
 
-    const formData = new FormData();
-    formData.append("image", elements.imageInput.files[0]);
-    formData.append("scale", scale);
+/* Navbar */
+.navbar { display: flex; justify-content: space-between; align-items: center; padding: 15px 8%; background: #fff; border-bottom: 1px solid #f1f5f9; position: sticky; top:0; z-index:100; }
+.logo { font-size: 26px; font-weight: 800; }
+.logo span { color: var(--blue); }
 
-    try {
-        const response = await fetch("https://hdimage-ai-backend.onrender.com/enhance", {
-            method: "POST",
-            body: formData
-        });
+/* Pixelcut Style Hero Section */
+.ad-hero { padding: 80px 8% 40px; background: radial-gradient(circle at top right, #f0f9ff, #ffffff); }
+.ad-container { display: flex; align-items: center; gap: 50px; flex-wrap: wrap; }
+.ad-text { flex: 1; min-width: 300px; text-align: left; }
+.hero-title { font-size: 56px; font-weight: 800; line-height: 1.1; margin: 20px 0; }
+.gradient-text { background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.ad-text p { font-size: 20px; color: #64748b; margin-bottom: 30px; }
+.badge { display: inline-block; padding: 6px 14px; background: var(--dark); color: white; border-radius: 50px; font-size: 12px; font-weight: 700; letter-spacing: 1px; }
 
-        if (!response.ok) throw new Error("Server Error");
+/* Comparison Slider Magic */
+.comparison-slider { flex: 1; min-width: 300px; display: flex; justify-content: center; }
+.before-after-container {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    height: 400px;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.15);
+}
+.before-after-container img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+.before-img-wrapper {
+    position: absolute;
+    top: 0; left: 0;
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 2;
+}
+.before-img { filter: blur(4px); transform: scale(1.05); } /* Advertise image blur effect */
 
-        const blob = await response.blob();
-        const url = URL.createObjectURL(blob);
-        
-        elements.resultImg.src = url;
-        elements.resultImg.style.opacity = "1";
-        elements.loader.style.display = "none";
-        elements.enhanceBtn.innerHTML = "Enhance Now";
-        elements.downloadBtn.style.display = "inline-block";
+.slider {
+    position: absolute;
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    outline: none;
+    margin: 0;
+    transition: .2s;
+    z-index: 5;
+    cursor: ew-resize;
+    top:0; left:0;
+}
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 4px;
+    height: 400px;
+    background: white;
+    cursor: ew-resize;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
 
-        elements.downloadBtn.onclick = () => {
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = `nh_cleaned_${scale}x.png`;
-            a.click();
-        };
-    } catch (err) {
-        alert("Server is busy. Please try again in 1 minute.");
-        elements.enhanceBtn.innerHTML = "Try Again";
-        elements.loader.style.display = "none";
-    } finally {
-        elements.enhanceBtn.disabled = false;
-    }
+/* Tool Card */
+.main-card { background: white; max-width: 600px; margin: 40px auto; padding: 40px; border-radius: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.05); border: 1px solid #f1f5f9; }
+#dropLabel { display: flex; flex-direction: column; align-items: center; padding: 40px; border: 2px dashed #cbd5e1; border-radius: 20px; cursor: pointer; background: #f8fafc; }
+.upload-icon { font-size: 40px; margin-bottom: 10px; }
+.controls-row { display: flex; gap: 10px; margin-top: 20px; }
+select { flex: 1; padding: 15px; border-radius: 12px; border: 1px solid #ddd; outline: none; font-size: 16px; }
+
+/* Buttons */
+.btn-main { background: var(--blue); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 700; cursor: pointer; transition: 0.3s; }
+.btn-go { background: var(--dark); color: white; padding: 15px 30px; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; font-size: 16px; }
+.btn-red { background: #fee2e2; color: #ef4444; border: none; padding: 10px 20px; border-radius: 10px; cursor: pointer; font-weight: 700; }
+.btn-dl { background: #22c55e; color: white; border: none; padding: 18px 40px; border-radius: 15px; font-weight: 800; cursor: pointer; margin-top: 30px; }
+
+/* Support & Footer */
+.support-container { padding: 40px 20px; text-align: center; border-top: 1px solid #f1f5f9; }
+.s-link { text-decoration: none; color: var(--dark); font-weight: 600; padding: 12px 20px; background: #f1f5f9; border-radius: 50px; margin: 5px; display: inline-block; transition: 0.3s; }
+.s-link:hover { background: var(--blue); color: white; }
+
+/* Mobile Fixes */
+@media (max-width: 768px) {
+    .ad-text { text-align: center; }
+    .hero-title { font-size: 38px; }
+    .ad-hero { padding: 40px 5%; }
+    .controls-row { flex-direction: column; }
+    .before-after-container { height: 300px; }
 }
