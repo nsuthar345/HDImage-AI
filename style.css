@@ -53,7 +53,7 @@ select { flex: 1; padding: 12px; border-radius: 10px; border: 1px solid #ddd; ou
 
 .support-links {
     display: flex;
-    justify-content: right;
+    justify-content: center;
     align-items: center;
     gap: 5px;
     flex-wrap: wrap; /* Mobile par niche lane ke liye */
@@ -85,7 +85,7 @@ select { flex: 1; padding: 12px; border-radius: 10px; border: 1px solid #ddd; ou
 }
 
 .s-link span {
-    font-size: 7px;
+    font-size: 12px;
 }
 
 .dot-sep {
