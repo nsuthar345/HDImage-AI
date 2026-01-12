@@ -5,41 +5,33 @@ const firebaseConfig = {
     projectId: "hd-image-ai",
     storageBucket: "hd-image-ai.firebasestorage.app",
     messagingSenderId: "492350131358",
-    appId: "1:492350131358:web:8af497b15f66332379ff8f",
-    measurementId: "G-PGGD9JFV62"
+    appId: "1:492350131358:web:8af497b15f66332379ff8f"
 };
 
-// 1. Initialize Firebase
-if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
-}
+if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 
-// 2. UI ELEMENTS (Dhyan rakhein ki IDs HTML se match karein)
 const elements = {
     loginBtn: document.getElementById("loginBtn"),
     signupBtn: document.getElementById("signupBtn"),
     logoutBtn: document.getElementById("logoutBtn"),
     loggedInUI: document.getElementById("loggedInUI"),
     loggedOutUI: document.getElementById("loggedOutUI"),
-userName: document.getElementById("displayUser"),
+    userName: document.getElementById("displayUser"),
     imageInput: document.getElementById("imageInput"),
     previewImg: document.getElementById("preview"),
     resultImg: document.getElementById("result"),
     resultSection: document.getElementById("resultSection"),
     enhanceBtn: document.getElementById("enhanceBtn"),
-    uploadForm: document.getElementById("uploadForm")
+    uploadForm: document.getElementById("uploadForm"),
+    loader: document.getElementById("loadingOverlay"),
+    downloadBtn: document.getElementById("downloadBtn")
 };
 
-// 3. AUTHENTICATION LOGIC
+// 1. Auth Logic
 const handleGoogleAuth = async () => {
     const provider = new firebase.auth.GoogleAuthProvider();
-    try {
-        await auth.signInWithPopup(provider);
-    } catch (err) {
-        console.error("Auth Error:", err);
-        alert("Login Failed: " + err.message);
-    }
+    try { await auth.signInWithPopup(provider); } catch (err) { alert("Login Failed"); }
 };
 
 if (elements.loginBtn) elements.loginBtn.onclick = handleGoogleAuth;
@@ -48,37 +40,33 @@ if (elements.logoutBtn) elements.logoutBtn.onclick = () => auth.signOut();
 
 auth.onAuthStateChanged(user => {
     if (user) {
-        if (elements.loggedOutUI) elements.loggedOutUI.style.display = "none";
-        if (elements.loggedInUI) elements.loggedInUI.style.display = "flex";
-        if (elements.userName) elements.userName.innerText = "Hi, " + user.displayName.split(' ')[0];
+        elements.loggedOutUI.style.display = "none";
+        elements.loggedInUI.style.display = "flex";
+        elements.userName.innerText = "Hi, " + user.displayName.split(' ')[0];
     } else {
-        if (elements.loggedOutUI) elements.loggedOutUI.style.display = "flex";
-        if (elements.loggedInUI) elements.loggedInUI.style.display = "none";
+        elements.loggedOutUI.style.display = "flex";
+        elements.loggedInUI.style.display = "none";
     }
 });
 
-// 4. IMAGE PREVIEW (Fixed & Tested)
-if (elements.imageInput) {
-    elements.imageInput.addEventListener('change', function(e) {
-        const file = e.target.files[0];
-        console.log("File selected:", file); // Debugging ke liye
+// 2. Instant Preview Logic
+elements.imageInput.addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            elements.previewImg.src = event.target.result;
+            elements.resultImg.src = ""; // Clear old result
+            elements.resultSection.style.display = "block";
+            elements.downloadBtn.style.display = "none";
+            elements.loader.style.display = "none";
+            elements.resultSection.scrollIntoView({ behavior: 'smooth' });
+        };
+        reader.readAsDataURL(file);
+    }
+});
 
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(event) {
-                elements.previewImg.src = event.target.result;
-                elements.previewImg.style.display = "block"; // Show image
-                console.log("Image preview loaded");
-            };
-            reader.readAsDataURL(file);
-            
-            if (elements.resultSection) elements.resultSection.style.display = "none";
-            elements.enhanceBtn.innerHTML = "Enhance Now";
-        }
-    });
-}
-
-// 5. FORM SUBMISSION
+// 3. Form Submit
 elements.uploadForm.onsubmit = async (e) => {
     e.preventDefault();
     const file = elements.imageInput.files[0];
@@ -86,10 +74,7 @@ elements.uploadForm.onsubmit = async (e) => {
     const user = auth.currentUser;
 
     if (!file) return alert("Please select a photo first!");
-
-    if (scale !== "2" && !user) {
-        return alert("Please Login/Sign-up to use Pro (4x/8x) quality!");
-    }
+    if (scale !== "2" && !user) return alert("Please Login to use Pro (4x/8x)!");
 
     if (scale !== "2") {
         startPayment(scale);
@@ -98,24 +83,11 @@ elements.uploadForm.onsubmit = async (e) => {
     }
 };
 
-// 6. PAYMENT & API (Baaki logic same rahega)
-function startPayment(scale) {
-    const options = {
-        "key": "YOUR_RAZORPAY_KEY", 
-        "amount": 19900,
-        "currency": "INR",
-        "name": "Heensa AI Pro",
-        "description": "Premium Image Upscaling",
-        "handler": () => processImage(scale),
-        "prefill": { "email": auth.currentUser ? auth.currentUser.email : "" },
-        "theme": { "color": "#38bdf8" }
-    };
-    new Razorpay(options).open();
-}
-
 async function processImage(scale) {
     elements.enhanceBtn.disabled = true;
-    elements.enhanceBtn.innerHTML = "Processing... Please Wait";
+    elements.enhanceBtn.innerHTML = "Processing...";
+    elements.loader.style.display = "block";
+    elements.resultImg.style.opacity = "0.3";
 
     const formData = new FormData();
     formData.append("image", elements.imageInput.files[0]);
@@ -127,26 +99,41 @@ async function processImage(scale) {
             body: formData
         });
 
-        if (!response.ok) throw new Error("Server connection failed");
+        if (!response.ok) throw new Error("Server Error");
 
         const blob = await response.blob();
         const url = URL.createObjectURL(blob);
         
         elements.resultImg.src = url;
-        elements.resultSection.style.display = "block";
-        elements.enhanceBtn.innerHTML = "Success! Done";
-        elements.resultSection.scrollIntoView({ behavior: 'smooth' });
+        elements.resultImg.style.opacity = "1";
+        elements.loader.style.display = "none";
+        elements.enhanceBtn.innerHTML = "Enhance Now";
+        elements.downloadBtn.style.display = "inline-block";
 
-        document.getElementById("downloadBtn").onclick = () => {
+        elements.downloadBtn.onclick = () => {
             const a = document.createElement("a");
             a.href = url;
             a.download = `heensa_cleaned_${scale}x.png`;
             a.click();
         };
     } catch (err) {
-        alert("Server is waking up. Please try again in 30 seconds.");
+        alert("Server is busy. Please try again in 1 minute.");
         elements.enhanceBtn.innerHTML = "Try Again";
+        elements.loader.style.display = "none";
     } finally {
         elements.enhanceBtn.disabled = false;
     }
+}
+
+function startPayment(scale) {
+    const options = {
+        "key": "YOUR_RAZORPAY_KEY", 
+        "amount": 19900,
+        "currency": "INR",
+        "name": "Heensa AI Pro",
+        "handler": () => processImage(scale),
+        "prefill": { "email": auth.currentUser.email },
+        "theme": { "color": "#38bdf8" }
+    };
+    new Razorpay(options).open();
 }
