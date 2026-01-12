@@ -23,11 +23,12 @@ form.addEventListener("submit", async (e) => {
 
     const formData = new FormData();
     formData.append("image", file);
-    formData.append("scale", "2"); // Yeh line important hai!
+    formData.append("scale", "2"); // Backend ko scale chahiye
 
-    alert("Enhancing... please wait 20-30 seconds (Render Free Tier may be slow)");
+    alert("Processing... Please wait 30 seconds.");
 
     try {
+        console.log("Sending request to Render...");
         const response = await fetch(
             "https://hdimage-ai-backend.onrender.com/enhance",
             {
@@ -37,17 +38,17 @@ form.addEventListener("submit", async (e) => {
         );
 
         if (!response.ok) {
-            const errorData = await response.json();
-            console.error("Server Error:", errorData);
-            throw new Error("Server error");
+            const errorText = await response.text();
+            console.error("Server Response Error:", errorText);
+            throw new Error(`Server returned ${response.status}`);
         }
 
         const blob = await response.blob();
         resultImg.src = URL.createObjectURL(blob);
-        alert("Success! Image Enhanced.");
+        console.log("Image enhanced successfully!");
 
     } catch (err) {
-        console.error("Fetch Error:", err);
-        alert("Enhance failed. Check console for details.");
+        console.error("Connection Error:", err);
+        alert("Enhance failed. Check if backend is awake at Render.");
     }
 });
