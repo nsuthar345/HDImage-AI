@@ -48,13 +48,13 @@ select { flex: 1; padding: 12px; border-radius: 10px; border: 1px solid #ddd; ou
     color: #94a3b8;
     text-transform: uppercase;
     letter-spacing: 1.5px;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
 }
 
 .support-links {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: right;
+    align-items: right;
     gap: 15px;
     flex-wrap: wrap; /* Mobile par niche lane ke liye */
 }
@@ -70,7 +70,7 @@ select { flex: 1; padding: 12px; border-radius: 10px; border: 1px solid #ddd; ou
     transition: all 0.3s ease;
     border: 1px solid #e2e8f0;
     display: inline-flex;
-    align-items: center;
+    align-items: right;
     gap: 10px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.02);
 }
