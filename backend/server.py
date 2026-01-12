@@ -4,6 +4,7 @@ import cv2
 import numpy as np
 from PIL import Image
 import io
+import os
 
 app = Flask(__name__)
 CORS(app)
@@ -16,19 +17,16 @@ def enhance():
     image = Image.open(file).convert("RGB")
     img_np = np.array(image)
 
-    # Upscale
-    height, width = img_np.shape[:2]
+    h, w = img_np.shape[:2]
     upscaled = cv2.resize(
         img_np,
-        (width * scale, height * scale),
+        (w * scale, h * scale),
         interpolation=cv2.INTER_CUBIC
     )
 
-    # Sharpening
     kernel = np.array([[0,-1,0],[-1,5,-1],[0,-1,0]])
     sharpened = cv2.filter2D(upscaled, -1, kernel)
 
-    # Convert back to image
     output = Image.fromarray(sharpened)
     img_io = io.BytesIO()
     output.save(img_io, "PNG")
@@ -37,4 +35,5 @@ def enhance():
     return send_file(img_io, mimetype="image/png")
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
