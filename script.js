@@ -1,6 +1,6 @@
-// 1. Firebase Configuration (Aapka waala hi hai)
+// 1. Firebase Config (Apna wala hi rehne dein)
 const firebaseConfig = {
-  apiKey: "AIzaSy...", // Apni real key yahan rehne dein
+  apiKey: "AIzaSy...", 
   authDomain: "hd-image-ai.firebaseapp.com",
   projectId: "hd-image-ai",
   storageBucket: "hd-image-ai.appspot.com",
@@ -9,7 +9,9 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+}
 const auth = firebase.auth();
 
 // UI Elements
@@ -17,29 +19,24 @@ const loginBtn = document.getElementById("loginBtn");
 const logoutBtn = document.getElementById("logoutBtn");
 const userInfo = document.getElementById("userInfo");
 const userNameText = document.getElementById("userName");
-const imageInput = document.getElementById("imageInput");
-const preview = document.getElementById("preview");
-const form = document.getElementById("uploadForm");
-const resultImg = document.getElementById("result");
-const resultSection = document.getElementById("resultSection");
-const downloadBtn = document.getElementById("downloadBtn");
 
-// --- LOGIN & AUTH LOGIC ---
-
-// Login Button Click
-loginBtn.onclick = () => {
+// --- 1. LOGIN LOGIC ---
+loginBtn.addEventListener("click", () => {
     const provider = new firebase.auth.GoogleAuthProvider();
     auth.signInWithPopup(provider)
-        .then((result) => console.log("User Logged In"))
-        .catch((error) => alert("Login Error: " + error.message));
-};
+        .then((result) => {
+            console.log("Logged in:", result.user.displayName);
+        })
+        .catch((error) => {
+            console.error("Login error:", error);
+            alert("Login Failed! Please check Firebase Settings.");
+        });
+});
 
-// Logout Button Click
-logoutBtn.onclick = () => {
+logoutBtn.addEventListener("click", () => {
     auth.signOut();
-};
+});
 
-// Auth State Change (Check if user is logged in or out)
 auth.onAuthStateChanged(user => {
     if (user) {
         loginBtn.style.display = "none";
@@ -51,67 +48,49 @@ auth.onAuthStateChanged(user => {
     }
 });
 
-// --- IMAGE PROCESSING LOGIC ---
+// --- 2. IMAGE ENHANCE LOGIC ---
+const imageInput = document.getElementById("imageInput");
+const preview = document.getElementById("preview");
+const form = document.getElementById("uploadForm");
+const resultImg = document.getElementById("result");
+const resultSection = document.getElementById("resultSection");
 
 imageInput.addEventListener("change", () => {
     const file = imageInput.files[0];
-    if (file) {
-        preview.src = URL.createObjectURL(file);
-        resultSection.style.display = "none";
-    }
+    if (file) preview.src = URL.createObjectURL(file);
 });
 
 form.addEventListener("submit", async (e) => {
     e.preventDefault();
     const file = imageInput.files[0];
-    const scale = document.getElementById("scaleSelect").value;
+    const scaleValue = document.getElementById("scaleSelect").value;
     const user = auth.currentUser;
 
-    if (!file) return alert("Please select an image first");
+    if (!file) return alert("Image select karein!");
 
-    // Login check for Pro Scales
-    if ((scale === "4" || scale === "8") && !user) {
-        alert("Pro features (4x/8x) ke liye please Login karein!");
+    // Check Login for Pro
+    if ((scaleValue === "4" || scaleValue === "8") && !user) {
+        alert("Pro quality (4x/8x) ke liye pehle Login karein!");
         return;
     }
 
-    // Payment check for Pro Scales
-    if (scale === "4" || scale === "8") {
-        startPayment(scale); // Payment function call
-    } else {
-        processImage(scale); // Direct free process
+    // Check Payment for Pro
+    if (scaleValue === "4" || scaleValue === "8") {
+        alert("Redirecting to Razorpay...");
+        // Payment function call yahan hogi
+        return;
     }
+
+    // Free 2x Process
+    processImage(file, scaleValue);
 });
 
-// Razorpay Payment Function
-function startPayment(scale) {
-    const options = {
-        "key": "YOUR_RAZORPAY_KEY_ID", // Yahan apni Razorpay Key dalein
-        "amount": 19900, // ₹199
-        "currency": "INR",
-        "name": "HD Image AI",
-        "description": "6 Months Subscription",
-        "handler": function (response) {
-            alert("Payment Success! Processing Image...");
-            processImage(scale);
-        },
-        "prefill": {
-            "email": auth.currentUser.email
-        },
-        "theme": { "color": "#38bdf8" }
-    };
-    const rzp = new Razorpay(options);
-    rzp.open();
-}
-
-// Final Image Fetch Function
-async function processImage(scaleValue) {
-    const file = imageInput.files[0];
+async function processImage(file, scale) {
     const formData = new FormData();
     formData.append("image", file);
-    formData.append("scale", scaleValue);
+    formData.append("scale", scale);
 
-    alert("Enhancing... Please wait 30 seconds.");
+    alert("Processing... wait 30 sec.");
 
     try {
         const response = await fetch("https://hdimage-ai-backend.onrender.com/enhance", {
@@ -119,23 +98,18 @@ async function processImage(scaleValue) {
             body: formData
         });
 
-        if (!response.ok) throw new Error("Server error");
-
         const blob = await response.blob();
         const imageUrl = URL.createObjectURL(blob);
-
         resultImg.src = imageUrl;
         resultSection.style.display = "block";
 
-        downloadBtn.onclick = () => {
-            const link = document.createElement("a");
-            link.href = imageUrl;
-            link.download = `enhanced_${scaleValue}x.png`;
-            link.click();
+        document.getElementById("downloadBtn").onclick = () => {
+            const a = document.createElement("a");
+            a.href = imageUrl;
+            a.download = "enhanced.png";
+            a.click();
         };
-
     } catch (err) {
-        console.error(err);
-        alert("Enhance failed. Check backend.");
+        alert("Error: Backend is sleeping. Try again.");
     }
 }
