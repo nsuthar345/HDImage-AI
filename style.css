@@ -38,7 +38,7 @@ body { background: #ffffff; color: var(--dark); overflow-x: hidden; }
 }
 
 .sub-logo {
-    font-size: 10px;
+    font-size: 15px;
     font-weight: 400;
     color: #94a3b8; /* Light gray professional look */
     letter-spacing: 5px;
@@ -49,8 +49,8 @@ body { background: #ffffff; color: var(--dark); overflow-x: hidden; }
 
 /* Mobile responsive font size */
 @media (max-width: 600px) {
-    .logo { font-size: 20px; }
-    .sub-logo { font-size: 8px; }
+    .logo { font-size: 25px; }
+    .sub-logo { font-size: 12px; }
 }
 /* Pixelcut Style Hero Section */
 .ad-hero { padding: 80px 8% 40px; background: radial-gradient(circle at top right, #f0f9ff, #ffffff); }
