@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>N & H Image Deep Resolution - AI Photo Enhancer</title>
-    <meta name="description" content="Turn blurry photos into Ultra HD using N & H AI magic.">
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
@@ -17,7 +16,8 @@
         <div id="authBox">
             <div id="loggedOutUI">
                 <button id="loginBtn" class="btn-main">Login</button>
-                <div style="width: 12px; display: inline-block;"></div> <button id="signupBtn" class="btn-main">Sign Up</button>
+                <div style="width: 15px; display: inline-block;"></div>
+                <button id="signupBtn" class="btn-main">Sign Up</button>
             </div>
             <div id="loggedInUI" style="display:none; align-items: center; gap: 15px;">
                 <span id="displayUser" style="font-weight: 600;"></span>
@@ -27,10 +27,25 @@
     </header>
 
     <main class="content">
-        <section class="hero-section">
-            <div class="badge">✨ Powered by Deep Learning AI</div>
-            <h1 class="hero-text">N & H Image <span class="gradient-text">Deep Resolution</span></h1>
-            <p class="tagline">Convert low-quality, blurry images into crystal clear Ultra HD masterpieces in one click.</p>
+        <section class="ad-hero">
+            <div class="ad-container">
+                <div class="ad-text">
+                    <div class="badge">NEW AI MODEL 2.0</div>
+                    <h1 class="hero-title">Blurry to <span class="gradient-text">Brilliant</span> in Seconds.</h1>
+                    <p>Experience the magic of N & H Deep Resolution. Restore details, remove noise, and upscale photos up to 8x Quality.</p>
+                </div>
+                
+                <div class="comparison-slider">
+                    <div class="before-after-container">
+                        <img class="after-img" src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=800&q=80" alt="After AI">
+                        <div class="before-img-wrapper" id="sliderWrapper">
+                            <img class="before-img" src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=800&q=10" alt="Before AI">
+                        </div>
+                        <input type="range" min="0" max="100" value="50" class="slider" id="imageSlider">
+                        <div class="slider-line"></div>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <div class="main-card">
@@ -40,13 +55,12 @@
                     <label for="imageInput" id="dropLabel">
                         <div class="upload-icon">📸</div>
                         <span>Drop or Click to Upload</span>
-                        <small>Supports JPG, PNG, WebP</small>
                     </label>
                 </div>
 
                 <div class="controls-row">
                     <select id="scaleSelect">
-                        <option value="2">Basic 2x (Free - Instant)</option>
+                        <option value="2">Basic 2x (Free)</option>
                         <option value="4">Pro 4x (HD) - ₹199 / Year</option>
                         <option value="8">Ultra 8x (4K) - ₹299 / Year</option>
                     </select>
@@ -55,57 +69,34 @@
             </form>
         </div>
 
-        <div id="resultSection" style="display:none;">
+        <div id="resultSection" style="display:none; margin-top: 50px;">
             <div class="visual-compare">
                 <div class="img-wrap">
-                    <p class="label-tag">Original Photo</p>
+                    <p class="label-tag">Original</p>
                     <img id="preview" src="">
                 </div>
                 <div class="img-wrap">
-                    <p class="label-tag highlight">AI Cleaned Version</p>
+                    <p class="label-tag highlight">N & H Cleaned</p>
                     <div id="loadingOverlay" class="loader-box" style="display:none;">
                         <div class="spinner"></div>
-                        <p>AI is analyzing pixels...</p>
+                        <p>Upscaling...</p>
                     </div>
                     <img id="result" src="">
                 </div>
             </div>
             <div class="action-buttons">
-                <button id="downloadBtn" class="btn-dl" style="display:none;">Download Master Copy</button>
+                <button id="downloadBtn" class="btn-dl" style="display:none;">Download Full HD</button>
             </div>
         </div>
-
-        <section class="ad-section">
-            <h2 class="section-title">Why choose N & H Resolution?</h2>
-            <div class="feature-grid">
-                <div class="feature-card">
-                    <span class="feat-icon">⚡</span>
-                    <h3>Instant Processing</h3>
-                    <p>Clean images in under 5 seconds with our high-speed AI servers.</p>
-                </div>
-                <div class="feature-card">
-                    <span class="feat-icon">💎</span>
-                    <h3>Ultra HD Detail</h3>
-                    <p>Recover lost details in old photos and make them look like 4K shots.</p>
-                </div>
-                <div class="feature-card">
-                    <span class="feat-icon">🛡️</span>
-                    <h3>Secure & Private</h3>
-                    <p>Your photos are processed securely and deleted after processing.</p>
-                </div>
-            </div>
-        </section>
     </main>
 
     <footer>
         <div class="support-container">
-            <p class="support-title">Customer Support & Technical Help</p>
             <div class="support-links">
                 <a href="tel:+919414305207" class="s-link"><span>📞</span> Naresh: +91 94143 05207</a>
-                <span class="dot-sep">•</span>
                 <a href="mailto:naresh.slsuthar@gmail.com" class="s-link"><span>✉️</span> naresh.slsuthar@gmail.com</a>
             </div>
-            <p class="expiry-notice">Pro Plans (4x/8x) valid for 365 days from date of purchase.</p>
+            <p class="expiry-notice">Plans valid for 1 year. Support available 24/7.</p>
         </div>
     </footer>
 
