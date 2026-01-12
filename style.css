@@ -8,43 +8,49 @@
 body { background: #ffffff; color: var(--dark); overflow-x: hidden; }
 
 /* Navbar */
-.navbar { display: flex; justify-content: space-between; align-items: center; padding: 15px 8%; background: #fff; border-bottom: 1px solid #f1f5f9; position: sticky; top:0; z-index:100; }
-/* Logo Grouping */
-.logo-group {
+/* Navbar adjustment */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Buttons aur Logo line mein rahenge */
+    padding: 10px 5%;
+    background: white;
+    border-bottom: 1px solid #eee;
+}
+
+/* Logo Wrapper to stack name vertically */
+.logo-wrapper {
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* Logo aur name left-aligned rahenge */
-    line-height: 1; /* Space kam karne ke liye */
+    justify-content: center;
+    align-items: flex-start; /* Isse name hamesha left se start hoga */
 }
 
 .logo {
-    font-size: 26px;
+    font-size: 24px;
     font-weight: 800;
-    letter-spacing: -0.5px;
+    line-height: 1; /* Space kam karne ke liye */
+    margin: 0;
 }
 
 .logo span {
     color: var(--blue);
 }
 
-/* Chota sub-name niche */
 .sub-logo {
-    font-size: 10px;
-    font-weight: 600;
-    color: #64748b; /* Soft gray color */
-    letter-spacing: 1.2px;
+    font-size: 9px;
+    font-weight: 700;
+    color: #94a3b8; /* Light gray professional look */
+    letter-spacing: 1px;
     text-transform: uppercase;
-    margin-top: 2px;
+    margin-top: 2px; /* Logo aur Heenu-Naresh ke beech halka gap */
+    line-height: 1;
 }
 
-/* Mobile par navbar adjustment */
+/* Mobile responsive font size */
 @media (max-width: 600px) {
-    .logo {
-        font-size: 22px;
-    }
-    .sub-logo {
-        font-size: 8px;
-    }
+    .logo { font-size: 20px; }
+    .sub-logo { font-size: 8px; }
 }
 /* Pixelcut Style Hero Section */
 .ad-hero { padding: 80px 8% 40px; background: radial-gradient(circle at top right, #f0f9ff, #ffffff); }
