@@ -4,232 +4,147 @@
     --grad: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
 }
 
-/* Global Reset */
-* { 
-    margin: 0; 
-    padding: 0; 
-    box-sizing: border-box; 
-    font-family: 'Outfit', sans-serif; 
-}
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; }
+body { overflow-x: hidden; background: #fff; color: var(--dark); }
 
-html, body {
-    max-width: 100%;
-    overflow-x: hidden;
-    background: #ffffff;
-    color: var(--dark);
-}
-
-/* --- Navbar & Logo Fix --- */
+/* --- Navbar & Logo Setup --- */
 .navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px 5%;
-    background: white;
     border-bottom: 1px solid #eee;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
+    background: #fff;
 }
 
 .logo-wrapper {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: flex-start; /* Desktop par left aligned */
+    align-items: flex-start;
 }
 
 .logo {
     font-size: 30px;
     font-weight: 800;
     line-height: 1;
-    margin: 0;
 }
-
 .logo span { color: var(--blue); }
 
 .sub-logo {
     font-size: 15px;
     font-weight: 400;
-    color: #000000;
+    color: #000;
     letter-spacing: 1px;
     text-transform: uppercase;
     margin-top: 2px;
-    line-height: 1;
 }
 
 /* --- Hero Section --- */
-.ad-hero { 
-    padding: 60px 8% 40px; 
-    background: radial-gradient(circle at top right, #f0f9ff, #ffffff); 
-}
-
-.ad-container { 
-    display: flex; 
-    align-items: center; 
-    gap: 50px; 
-    flex-wrap: wrap; 
-}
-
+.ad-hero { padding: 60px 8% 40px; background: radial-gradient(circle at top right, #f0f9ff, #ffffff); }
+.ad-container { display: flex; align-items: center; gap: 50px; flex-wrap: wrap; }
 .ad-text { flex: 1; min-width: 300px; }
+.hero-title { font-size: 56px; font-weight: 800; line-height: 1.1; margin-bottom: 20px; }
+.gradient-text { background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-.hero-title { 
-    font-size: 56px; 
-    font-weight: 800; 
-    line-height: 1.1; 
-    margin: 20px 0; 
-}
-
-.gradient-text { 
-    background: var(--grad); 
-    -webkit-background-clip: text; 
-    -webkit-text-fill-color: transparent; 
-}
-
-.ad-text p { 
-    font-size: 20px; 
-    color: #64748b; 
-    margin-bottom: 30px; 
-}
-
-.badge { 
-    display: inline-block; 
-    padding: 6px 14px; 
-    background: var(--dark); 
-    color: white; 
-    border-radius: 50px; 
-    font-size: 12px; 
-    font-weight: 700; 
-}
-
-/* --- Comparison Slider (NO ZOOM FIX) --- */
-.comparison-slider { 
-    flex: 1; 
-    min-width: 300px; 
-    display: flex; 
-    justify-content: center; 
+/* --- Comparison Slider (FREEZE LOGIC) --- */
+.comparison-slider {
+    flex: 1;
+    min-width: 300px;
+    display: flex;
+    justify-content: center;
 }
 
 .before-after-container {
     position: relative;
     width: 100%;
     max-width: 500px;
-    height: 400px;
+    aspect-ratio: 4/3;
     border-radius: 20px;
     overflow: hidden;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
 }
 
-/* Dono images ka size lock kar diya hai taaki zoom na ho */
-.before-after-container img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 500px !important; /* Fixed width */
-    height: 400px !important; /* Fixed height */
+/* Clear Image (Base) */
+.after-img {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
     display: block;
 }
 
-.after-img { z-index: 1; }
-
+/* Blurred Image Wrapper (Parda) */
 .before-img-wrapper {
     position: absolute;
     top: 0;
     left: 0;
-    width: 50%; /* Slider handles this */
+    width: 50%; /* Slider controls this */
     height: 100%;
     overflow: hidden;
     z-index: 2;
     border-right: 3px solid white;
 }
 
+/* Blurred Image (Locked at Center) */
 .before-img {
+    position: absolute;
+    top: 0;
+    left: 50%; /* Center lock */
+    transform: translateX(-50%); /* Center lock */
+    width: 500px; /* Match max-width */
+    height: 100%;
+    object-fit: cover;
     filter: blur(8px);
+    display: block;
 }
 
+/* Transparent Range Slider */
 .slider {
     position: absolute;
-    -webkit-appearance: none;
-    appearance: none;
+    top: 0; left: 0;
     width: 100%;
     height: 100%;
+    -webkit-appearance: none;
     background: transparent;
     z-index: 10;
     cursor: ew-resize;
-    top: 0; left: 0;
+    outline: none;
 }
 
 .slider::-webkit-slider-thumb {
     -webkit-appearance: none;
-    width: 40px;
-    height: 40px;
+    width: 45px;
+    height: 45px;
     background: white;
     border: 3px solid var(--blue);
     border-radius: 50%;
-    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    cursor: ew-resize;
 }
 
-/* --- Main Card & Controls --- */
-.main-card { 
-    background: white; 
-    max-width: 600px; 
-    margin: 40px auto; 
-    padding: 40px; 
-    border-radius: 30px; 
-    box-shadow: 0 20px 40px rgba(0,0,0,0.05); 
-    border: 1px solid #f1f5f9; 
-}
-
-#dropLabel { 
-    display: flex; 
-    flex-direction: column; 
-    align-items: center; 
-    padding: 40px; 
-    border: 2px dashed #cbd5e1; 
-    border-radius: 20px; 
-    cursor: pointer; 
-    background: #f8fafc; 
-}
-
-.upload-icon { font-size: 40px; margin-bottom: 10px; }
-
-.controls-row { display: flex; gap: 10px; margin-top: 20px; }
-
-select { 
-    flex: 1; 
-    padding: 15px; 
-    border-radius: 12px; 
-    border: 1px solid #ddd; 
-    font-size: 16px; 
-}
-
-.btn-main { background: var(--blue); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 700; cursor: pointer; }
-.btn-go { background: var(--dark); color: white; padding: 15px 30px; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; }
-.btn-dl { background: #22c55e; color: white; border: none; padding: 18px 40px; border-radius: 15px; font-weight: 800; cursor: pointer; margin-top: 30px; }
-
-/* --- Mobile Fixes (All in One) --- */
+/* --- Mobile Fixes --- */
 @media (max-width: 768px) {
-    /* Logo Desktop Jaisa Mobile Par */
-    .navbar { padding: 10px 15px !important; }
-    .logo-wrapper { align-items: flex-start !important; }
-    .logo { font-size: 24px !important; }
-    .sub-logo { font-size: 10px !important; letter-spacing: 2px !important; }
+    /* Logo Desktop Jaisa Same Mobile Par */
+    .logo { font-size: 30px !important; }
+    .sub-logo { 
+        font-size: 15px !important; 
+        color: #000 !important; 
+        letter-spacing: 1px !important;
+        display: block !important;
+        margin-top: 2px !important;
+    }
 
-    /* Slider Mobile Fix (Locking width again) */
-    .before-after-container { height: 300px; }
-    .before-after-container img {
-        width: 100vw !important; /* Mobile ki width par freeze */
-        height: 300px !important;
+    /* Mobile Image Freeze Fix */
+    .before-after-container {
+        width: 90vw;
+        max-width: 90vw;
+    }
+
+    .before-img {
+        width: 90vw !important; /* Image width screen ke hisab se freeze */
     }
 
     .hero-title { font-size: 32px; text-align: center; }
-    .ad-text p { text-align: center; font-size: 16px; }
-    .ad-container { gap: 30px; }
-    .controls-row { flex-direction: column; }
-    .main-card { padding: 20px; width: 92%; }
+    .ad-text { text-align: center; }
 }
 
-/* Footer & Support */
-.support-container { padding: 40px 20px; text-align: center; border-top: 1px solid #f1f5f9; }
-.s-link { text-decoration: none; color: var(--dark); padding: 12px 20px; background: #f1f5f9; border-radius: 50px; margin: 5px; display: inline-block; }
+/* Baki ka code (Main Card, Buttons) niche add kar sakte hain... */
