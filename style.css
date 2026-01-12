@@ -30,3 +30,15 @@ img {
   max-width: 90%;
   border-radius: 12px;
 }
+.download-style {
+    background-color: #38bdf8 !important; /* Blue color */
+    color: white;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+#resultSection {
+    margin-top: 20px;
+    border-top: 2px solid #38bdf8;
+    padding-top: 20px;
+}
