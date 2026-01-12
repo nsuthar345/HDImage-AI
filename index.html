@@ -35,14 +35,22 @@
                 <label for="imageInput" id="dropLabel">Click to Choose Image</label>
             </div>
 
-            <div class="controls-row">
-                <select id="scaleSelect">
-                    <option value="2">Basic 2x (Free)</option>
-                    <option value="4">Pro 4x (HD) - ₹199</option>
-                    <option value="8">Ultra 8x (4K) - ₹199</option>
-                </select>
-                <button id="enhanceBtn" class="btn-go">Enhance Now</button>
-            </div>
+            <div class="main-card">
+    <form id="uploadForm"> <div class="upload-box">
+            <input type="file" id="imageInput" hidden accept="image/*">
+            <label for="imageInput" id="dropLabel">Click to Choose Image</label>
+        </div>
+
+        <div class="controls-row">
+            <select id="scaleSelect">
+                <option value="2">Basic 2x (Free)</option>
+                <option value="4">Pro 4x (HD) - ₹199</option>
+                <option value="8">Ultra 8x (4K) - ₹199</option>
+            </select>
+            <button type="submit" id="enhanceBtn" class="btn-go">Enhance Now</button>
+        </div>
+    </form>
+</div>
         </div>
 
         <div id="resultSection" style="display:none;">
