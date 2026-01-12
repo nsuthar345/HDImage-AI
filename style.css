@@ -47,11 +47,44 @@ body { background: #ffffff; color: var(--dark); overflow-x: hidden; }
     line-height: 1;
 }
 
-/* Mobile responsive font size */
+/* --- Desktop jaisa Logo Mobile par lane ke liye Fix --- */
+
 @media (max-width: 600px) {
-    .logo { font-size: 30px; }
-    .sub-logo { font-size: 10px; color: #000000; letter-spacing: 1px;}
-    
+    /* 1. Navbar ko ensure karein ki wo space sahi se le */
+    .navbar {
+        padding: 10px 15px !important;
+        display: flex !important;
+        flex-direction: row !important; /* Mobile par bhi side-by-side rahe */
+        justify-content: space-between !important;
+        align-items: center !important;
+    }
+
+    /* 2. Logo Wrapper ko stack rakhein (Desktop jaisa) */
+    .logo-wrapper {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: flex-start !important; /* Left se barabar rakhega */
+        text-align: left !important;
+        justify-content: center !important;
+    }
+
+    /* 3. Logo ka size mobile par thoda control mein magar waisa hi */
+    .logo {
+        font-size: 24px !important; /* Mobile ke liye thoda adjust kiya taaki buttons ki jagah bane */
+        line-height: 1 !important;
+        margin-bottom: 0 !important;
+    }
+
+    /* 4. Sub-logo ko desktop jaisa gray aur small rakhein */
+    .sub-logo {
+        font-size: 9px !important; 
+        color: #000000 !important;
+        letter-spacing: 0.5px !important;
+        margin-top: 2px !important;
+        font-weight: 600 !important;
+        line-height: 1 !important;
+        display: block !important;
+    }
 }
 /* Pixelcut Style Hero Section */
 .ad-hero { padding: 80px 8% 40px; background: radial-gradient(circle at top right, #f0f9ff, #ffffff); }
