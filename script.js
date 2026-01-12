@@ -1,23 +1,49 @@
+const imageInput = document.getElementById("imageInput");
+const preview = document.getElementById("preview");
+const form = document.getElementById("uploadForm");
+const resultImg = document.getElementById("result");
 
-function uploadImage() {
-  const file = document.getElementById("imageInput").files[0];
-  const scale = document.getElementById("scale").value;
+// IMAGE PREVIEW
+imageInput.addEventListener("change", () => {
+    const file = imageInput.files[0];
+    if (file) {
+        preview.src = URL.createObjectURL(file);
+    }
+});
 
-  if (!file) {
-    alert("Please select an image");
-    return;
-  }
+// ENHANCE BUTTON
+form.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-  const formData = new FormData();
-  formData.append("image", file);
-  formData.append("scale", scale);
+    const file = imageInput.files[0];
+    if (!file) {
+        alert("Please select an image first");
+        return;
+    }
 
- fetch("https://hdimage-ai-backend.onrender.com/enhance", {
-    method: "POST",
-    body: formData
-  })
-  .then(res => res.blob())
-  .then(blob => {
-    document.getElementById("result").src = URL.createObjectURL(blob);
-  });
-}
+    const formData = new FormData();
+    formData.append("image", file);
+
+    alert("Enhancing... please wait 30-40 seconds");
+
+    try {
+        const response = await fetch(
+            "https://hdimage-ai-backend.onrender.com/enhance",
+            {
+                method: "POST",
+                body: formData
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error("Server error");
+        }
+
+        const blob = await response.blob();
+        resultImg.src = URL.createObjectURL(blob);
+
+    } catch (err) {
+        console.error(err);
+        alert("Enhance failed");
+    }
+});
