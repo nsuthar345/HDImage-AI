@@ -2,48 +2,45 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HD Image AI</title>    
+    <title>HD Image AI - Pro</title>    
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+    <div style="text-align: right; padding: 20px;">
+        <button id="loginBtn" style="background: #4285F4;">Login with Google</button>
+        <div id="userInfo" style="display: none;">
+            <span id="userName"></span>
+            <button id="logoutBtn" style="background: #ef4444; padding: 5px 10px; font-size: 12px;">Logout</button>
+        </div>
+    </div>
+
     <h1>AI Image Enhancer</h1>
 
     <form id="uploadForm">
         <input type="file" id="imageInput" accept="image/*" />
         <br><br>
-        <button type="submit" id="enhanceBtn">Enhance Image</button>
+        
+        <label>Select Quality:</label>
+        <select id="scaleSelect" style="margin-bottom: 20px;">
+            <option value="2">2x (Free - Basic)</option>
+            <option value="4">4x (Paid - Pro Clear)</option>
+            <option value="8">8x (Paid - Ultra HD)</option>
+        </select>
+        <br>
+        
+        <button type="submit">Enhance</button>
     </form>
 
-    <div class="container">
-        <h3>Preview:</h3>
-        <img id="preview" width="300" />
-
-        <div id="resultSection" style="display: none; margin-top: 20px;">
-            <hr>
-            <h3></h3>
-            <img id="result" width="300" style="border: 2px solid #22c55e;" />
-            <br><br>
-            <button id="downloadBtn" style="background: #38bdf8; padding: 10px 20px; font-weight: bold;">Download HD Image</button>
-        </div>
+    <div id="resultSection" style="display: none;">
+        <h3>Result:</h3>
+        <img id="result" width="300" />
+        <br>
+        <button id="downloadBtn" style="background: #22c55e;">Download HD</button>
     </div>
-<div id="authSection" style="text-align: right; padding: 10px;">
-    <button id="loginBtn">Login with Google</button>
-    <span id="userEmail"></span>
-</div>
 
-<h1>AI Image Enhancer (Pro)</h1>
-
-<label for="scaleSelect">Select Quality:</label>
-<select id="scaleSelect">
-    <option value="2">2x - Free (Basic)</option>
-    <option value="4">4x - Pro (High Clear)</option>
-    <option value="8">8x - Ultra HD (Max Clear)</option>
-</select>
-
-<div id="subscriptionNote" style="color: yellow; display: none;">
-    4x & 8x require Pro Plan (₹199 / 6 Months)
-</div>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
