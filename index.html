@@ -3,66 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Heensa Image Cleaner - Premium AI</title>
+    <title>Heensa AI - Smart Image Cleaner</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
 </head>
 <body>
-
     <nav class="navbar">
         <div class="logo">Heensa<span>AI</span></div>
-        <div id="authContainer">
-            <div id="loggedOutUI">
-                <button id="loginBtn" class="btn-secondary">Login</button>
-                <button id="signupBtn" class="btn-primary">Sign Up</button>
+        <div id="authPanel">
+            <div id="loggedOut">
+                <button id="loginBtn" class="btn-outline">Log In</button>
+                <button id="signupBtn" class="btn-fill">Sign Up Free</button>
             </div>
-            <div id="loggedInUI" style="display:none;">
-                <span id="userName"></span>
+            <div id="loggedIn" style="display:none;">
+                <span id="uName"></span>
                 <button id="logoutBtn" class="btn-danger">Logout</button>
             </div>
         </div>
     </nav>
 
-    <main class="hero-section">
-        <h1 class="main-title">Heensa Image Cleaner</h1>
-        <p class="subtitle">Transform your blurry photos into 4K Masterpieces</p>
+    <div class="main-container">
+        <h1>Clean Your Images Like Magic</h1>
+        <p>Make your photos clear and sharp in one click</p>
 
-        <div class="upload-card">
-            <form id="uploadForm">
-                <div class="file-input-wrapper">
-                    <input type="file" id="imageInput" accept="image/*" required />
-                    <label for="imageInput">Choose Photo</label>
-                </div>
-                
-                <div class="controls">
-                    <label>Enhance Quality:</label>
-                    <select id="scaleSelect">
-                        <option value="2">2x Basic (Free)</option>
-                        <option value="4">4x Pro (HD) - ₹199</option>
-                        <option value="8">8x Ultra (4K) - ₹199</option>
-                    </select>
-                </div>
-                
-                <button type="submit" id="enhanceBtn" class="btn-main">Enhance Now</button>
-            </form>
-        </div>
+        <div class="card">
+            <input type="file" id="imageInput" hidden accept="image/*">
+            <label for="imageInput" class="upload-area">
+                <p>Click to Upload Photo</p>
+            </label>
 
-        <div class="preview-container">
-            <div class="preview-box">
-                <h3>Preview</h3>
-                <img id="preview" src="https://via.placeholder.com/300?text=Your+Image" />
-            </div>
-            <div id="resultSection" class="preview-box" style="display:none;">
-                <h3>Result</h3>
-                <img id="result" />
-                <button id="downloadBtn" class="btn-download">Download HD</button>
+            <div class="options">
+                <select id="scaleSelect">
+                    <option value="2">2x Quality (Free)</option>
+                    <option value="4">4x HD Quality (₹199)</option>
+                    <option value="8">8x Ultra HD (₹199)</option>
+                </select>
+                <button id="enhanceBtn" class="btn-go">Enhance Now</button>
             </div>
         </div>
-    </main>
 
+        <div id="resultSection" style="display:none;">
+            <div class="comparison">
+                <div><p>Original</p><img id="preview"></div>
+                <div><p>Enhanced</p><img id="result"></div>
+            </div>
+            <button id="downloadBtn" class="btn-dl">Download HD Photo</button>
+        </div>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>
