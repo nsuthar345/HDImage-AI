@@ -2,45 +2,53 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HD Image AI - Pro</title>    
     <link rel="stylesheet" href="style.css">
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
 </head>
 <body>
 
-    <div style="text-align: right; padding: 20px;">
-        <button id="loginBtn" style="background: #4285F4;">Login with Google</button>
+    <div id="authSection" style="text-align: right; padding: 15px;">
+        <button id="loginBtn" style="background: #4285F4; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">Login with Google</button>
         <div id="userInfo" style="display: none;">
-            <span id="userName"></span>
-            <button id="logoutBtn" style="background: #ef4444; padding: 5px 10px; font-size: 12px;">Logout</button>
+            <span id="userName" style="margin-right: 10px;"></span>
+            <button id="logoutBtn" style="background: #ef4444; border: none; color: white; padding: 5px 10px; border-radius: 5px; cursor: pointer;">Logout</button>
         </div>
     </div>
 
     <h1>AI Image Enhancer</h1>
 
     <form id="uploadForm">
-        <input type="file" id="imageInput" accept="image/*" />
+        <input type="file" id="imageInput" accept="image/*" required />
         <br><br>
         
         <label>Select Quality:</label>
-        <select id="scaleSelect" style="margin-bottom: 20px;">
+        <select id="scaleSelect" style="padding: 8px; border-radius: 5px; margin-bottom: 20px;">
             <option value="2">2x (Free - Basic)</option>
-            <option value="4">4x (Paid - Pro Clear)</option>
-            <option value="8">8x (Paid - Ultra HD)</option>
+            <option value="4">4x (Pro - High Clear) - ₹199</option>
+            <option value="8">8x (Ultra HD) - ₹199</option>
         </select>
         <br>
         
-        <button type="submit">Enhance</button>
+        <button type="submit" id="enhanceBtn">Enhance Now</button>
     </form>
 
-    <div id="resultSection" style="display: none;">
-        <h3>Result:</h3>
-        <img id="result" width="300" />
-        <br>
-        <button id="downloadBtn" style="background: #22c55e;">Download HD</button>
+    <div class="container">
+        <h3>Preview:</h3>
+        <img id="preview" width="300" style="border-radius: 10px;" />
+
+        <div id="resultSection" style="display: none; margin-top: 30px;">
+            <hr>
+            <h3>Result:</h3>
+            <img id="result" width="300" style="border: 3px solid #22c55e; border-radius: 10px;" />
+            <br><br>
+            <button id="downloadBtn" style="background: #38bdf8; color: white; padding: 12px 25px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">Download HD Image</button>
+        </div>
     </div>
 
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
