@@ -221,19 +221,22 @@ html, body {
     .ad-text { text-align: center; }
     .controls-row { flex-direction: column; }
 }
-@media (max-width: 768px) {
-    .navbar { padding: 10px 15px !important; }
-    .logo { font-size: 24px !important; }
-    .sub-logo { font-size: 9px !important; letter-spacing: 3px !important; display: block !important; }
+@media (max-width: 600px) {
+    .navbar {
+        padding: 10px 15px !important;
+        flex-direction: row !important;
+    }
 
-    /* Mobile par container ka size chota, par image freeze */
+    .logo-wrapper { align-items: flex-start !important; }
+    .logo { font-size: 22px !important; }
+    .sub-logo { font-size: 8px !important; letter-spacing: 3px !important; display: block !important; }
+
+    /* Mobile par image ko freeze rakhne ke liye wrapper ki image size lock */
     .before-after-container {
-        height: 300px !important;
+        max-width: 90vw; /* Screen se bahar nahi jayega */
     }
-
-    .before-after-container img, 
+    
     .before-img-wrapper img {
-        width: 100vw !important; /* Screen ki full width par freeze */
-        height: 300px !important;
-        object-fit: cover;
+        width: calc(90vw) !important; /* Mobile ki container width ke barabar freeze */
     }
+}
