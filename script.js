@@ -137,3 +137,37 @@ function startPayment(scale) {
     };
     new Razorpay(options).open();
 }
+// Is function ko script.js mein replace karein
+function startPayment(scale) {
+    const amountInPaise = 19900; // ₹199 = 19900 paise
+
+    const options = {
+        "key": "rzp_test_S35DJEe4lmg5Rm", // <-- Apni API Key yahan dalein
+        "amount": amountInPaise,
+        "currency": "INR",
+        "name": "Heensa AI Pro",
+        "description": `Upgrade to ${scale}x Ultra HD Quality`,
+        "image": "https://your-logo-url.com/logo.png", // Optional: Aapka logo
+        "handler": function (response) {
+            // Payment successful hone par ye chalega
+            console.log("Payment ID:", response.razorpay_payment_id);
+            processImage(scale); // Payment ke baad image process shuru hogi
+        },
+        "prefill": {
+            "name": auth.currentUser ? auth.currentUser.displayName : "",
+            "email": auth.currentUser ? auth.currentUser.email : ""
+        },
+        "theme": {
+            "color": "#38bdf8" // Website ka blue color
+        }
+    };
+
+    const rzp1 = new Razorpay(options);
+    
+    // Agar payment fail ho jaye
+    rzp1.on('payment.failed', function (response){
+        alert("Payment Failed: " + response.error.description);
+    });
+
+    rzp1.open();
+}
