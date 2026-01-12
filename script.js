@@ -5,12 +5,12 @@ const resultImg = document.getElementById("result");
 const resultSection = document.getElementById("resultSection");
 const downloadBtn = document.getElementById("downloadBtn");
 
-// Image Preview logic
+// Image select hone par preview dikhao
 imageInput.addEventListener("change", () => {
     const file = imageInput.files[0];
     if (file) {
         preview.src = URL.createObjectURL(file);
-        resultSection.style.display = "none"; // Nayi image select hone par purana result chhupa do
+        resultSection.style.display = "none"; // Purana result chhupa do
     }
 });
 
@@ -26,7 +26,7 @@ form.addEventListener("submit", async (e) => {
     formData.append("image", file);
     formData.append("scale", "2");
 
-    alert("Enhancing... please wait 30 seconds");
+    alert("Processing... Please wait 30 seconds.");
 
     try {
         const response = await fetch("https://hdimage-ai-backend.onrender.com/enhance", {
@@ -37,22 +37,22 @@ form.addEventListener("submit", async (e) => {
         if (!response.ok) throw new Error("Server error");
 
         const blob = await response.blob();
-        const finalImageUrl = URL.createObjectURL(blob);
+        const imageUrl = URL.createObjectURL(blob);
 
-        // Result dikhao
-        resultImg.src = finalImageUrl;
+        // Result dikhao aur button enable karo
+        resultImg.src = imageUrl;
         resultSection.style.display = "block";
 
         // Download logic
         downloadBtn.onclick = () => {
             const link = document.createElement("a");
-            link.href = finalImageUrl;
-            link.download = "HD_Enhanced_Image.png";
+            link.href = imageUrl;
+            link.download = "HD_Enhanced.png";
             link.click();
         };
 
     } catch (err) {
         console.error(err);
-        alert("Enhance failed. Please try again.");
+        alert("Enhance failed. Make sure backend is running.");
     }
 });
