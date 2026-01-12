@@ -1,6 +1,6 @@
-// 1. Firebase Config (Apna wala hi rehne dein)
+// 1. FIREBASE SETUP
 const firebaseConfig = {
-  apiKey: "AIzaSy...", 
+  apiKey: "AIzaSy...", // Apna real apiKey yahan rehne dein
   authDomain: "hd-image-ai.firebaseapp.com",
   projectId: "hd-image-ai",
   storageBucket: "hd-image-ai.appspot.com",
@@ -8,89 +8,106 @@ const firebaseConfig = {
   appId: "..."
 };
 
-// Initialize Firebase
 if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
 }
 const auth = firebase.auth();
 
-// UI Elements
+// 2. UI ELEMENTS
 const loginBtn = document.getElementById("loginBtn");
+const signupBtn = document.getElementById("signupBtn");
 const logoutBtn = document.getElementById("logoutBtn");
-const userInfo = document.getElementById("userInfo");
+const loggedInUI = document.getElementById("loggedInUI");
+const loggedOutUI = document.getElementById("loggedOutUI");
 const userNameText = document.getElementById("userName");
 
-// --- 1. LOGIN LOGIC ---
-loginBtn.addEventListener("click", () => {
+const imageInput = document.getElementById("imageInput");
+const previewImg = document.getElementById("preview");
+const resultImg = document.getElementById("result");
+const resultSection = document.getElementById("resultSection");
+const enhanceBtn = document.getElementById("enhanceBtn");
+
+// 3. AUTHENTICATION LOGIC (Login & Sign-up)
+const handleAuth = () => {
     const provider = new firebase.auth.GoogleAuthProvider();
     auth.signInWithPopup(provider)
-        .then((result) => {
-            console.log("Logged in:", result.user.displayName);
-        })
-        .catch((error) => {
-            console.error("Login error:", error);
-            alert("Login Failed! Please check Firebase Settings.");
-        });
-});
+        .then(() => console.log("Success"))
+        .catch(err => alert("Error: " + err.message));
+};
 
-logoutBtn.addEventListener("click", () => {
-    auth.signOut();
-});
+loginBtn.onclick = handleAuth;
+signupBtn.onclick = handleAuth;
+logoutBtn.onclick = () => auth.signOut();
 
 auth.onAuthStateChanged(user => {
     if (user) {
-        loginBtn.style.display = "none";
-        userInfo.style.display = "block";
-        userNameText.innerText = "Hi, " + user.displayName;
+        loggedOutUI.style.display = "none";
+        loggedInUI.style.display = "flex";
+        userNameText.innerText = "Hi, " + user.displayName.split(' ')[0];
     } else {
-        loginBtn.style.display = "block";
-        userInfo.style.display = "none";
+        loggedOutUI.style.display = "flex";
+        loggedInUI.style.display = "none";
     }
 });
 
-// --- 2. IMAGE ENHANCE LOGIC ---
-const imageInput = document.getElementById("imageInput");
-const preview = document.getElementById("preview");
-const form = document.getElementById("uploadForm");
-const resultImg = document.getElementById("result");
-const resultSection = document.getElementById("resultSection");
-
-imageInput.addEventListener("change", () => {
+// 4. IMAGE HANDLING & PREVIEW
+imageInput.onchange = () => {
     const file = imageInput.files[0];
-    if (file) preview.src = URL.createObjectURL(file);
-});
+    if (file) {
+        previewImg.src = URL.createObjectURL(file);
+        resultSection.style.display = "none";
+        enhanceBtn.innerHTML = "Enhance Now";
+    }
+};
 
-form.addEventListener("submit", async (e) => {
+// 5. MAIN FORM SUBMISSION
+document.getElementById("uploadForm").onsubmit = async (e) => {
     e.preventDefault();
     const file = imageInput.files[0];
-    const scaleValue = document.getElementById("scaleSelect").value;
+    const scale = document.getElementById("scaleSelect").value;
     const user = auth.currentUser;
 
-    if (!file) return alert("Image select karein!");
+    if (!file) return alert("Photo select karein!");
 
-    // Check Login for Pro
-    if ((scaleValue === "4" || scaleValue === "8") && !user) {
-        alert("Pro quality (4x/8x) ke liye pehle Login karein!");
+    // Pro Quality Check
+    if ((scale === "4" || scale === "8") && !user) {
+        alert("Pro Quality ke liye Login/Sign-up karein!");
         return;
     }
 
-    // Check Payment for Pro
-    if (scaleValue === "4" || scaleValue === "8") {
-        alert("Redirecting to Razorpay...");
-        // Payment function call yahan hogi
-        return;
+    if (scale === "4" || scale === "8") {
+        startPayment(scale);
+    } else {
+        processImage(scale);
     }
+};
 
-    // Free 2x Process
-    processImage(file, scaleValue);
-});
+// 6. RAZORPAY PAYMENT
+function startPayment(scale) {
+    const options = {
+        "key": "YOUR_RAZORPAY_KEY_ID", // Yahan apni Razorpay Key dalein
+        "amount": 19900, 
+        "currency": "INR",
+        "name": "Heensa AI Pro",
+        "description": "Unlock Ultra HD Quality",
+        "handler": function () {
+            processImage(scale);
+        },
+        "prefill": { "email": auth.currentUser.email },
+        "theme": { "color": "#38bdf8" }
+    };
+    const rzp = new Razorpay(options);
+    rzp.open();
+}
 
-async function processImage(file, scale) {
+// 7. BACKEND API CALL
+async function processImage(scale) {
+    enhanceBtn.disabled = true;
+    enhanceBtn.innerHTML = `<span class="loader"></span> Processing...`;
+
     const formData = new FormData();
-    formData.append("image", file);
+    formData.append("image", imageInput.files[0]);
     formData.append("scale", scale);
-
-    alert("Processing... wait 30 sec.");
 
     try {
         const response = await fetch("https://hdimage-ai-backend.onrender.com/enhance", {
@@ -98,18 +115,29 @@ async function processImage(file, scale) {
             body: formData
         });
 
+        if (!response.ok) throw new Error("Server down");
+
         const blob = await response.blob();
-        const imageUrl = URL.createObjectURL(blob);
-        resultImg.src = imageUrl;
+        const url = URL.createObjectURL(blob);
+        
+        resultImg.src = url;
         resultSection.style.display = "block";
+        enhanceBtn.innerHTML = "Done! Check Below";
+        
+        // Scroll to result
+        resultSection.scrollIntoView({ behavior: 'smooth' });
 
         document.getElementById("downloadBtn").onclick = () => {
             const a = document.createElement("a");
-            a.href = imageUrl;
-            a.download = "enhanced.png";
+            a.href = url;
+            a.download = `heensa_ai_${scale}x.png`;
             a.click();
         };
+
     } catch (err) {
-        alert("Error: Backend is sleeping. Try again.");
+        alert("Error: Backend is starting up. Wait 1 min.");
+        enhanceBtn.innerHTML = "Try Again";
+    } finally {
+        enhanceBtn.disabled = false;
     }
 }
