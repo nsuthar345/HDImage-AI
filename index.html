@@ -3,13 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>N & H Image Deep Resolution</title>
-    
-    <meta name="description" content="Enhance your blurry photos using Heensa AI magic. Professional upscaling up to 8x.">
-    
+    <title>N & H Image Deep Resolution - AI Photo Enhancer</title>
+    <meta name="description" content="Turn blurry photos into Ultra HD using N & H AI magic.">
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
@@ -20,79 +17,98 @@
         <div id="authBox">
             <div id="loggedOutUI">
                 <button id="loginBtn" class="btn-main">Login</button>
-                <button id="signupBtn" class="btn-main">Sign Up</button>
+                <div style="width: 12px; display: inline-block;"></div> <button id="signupBtn" class="btn-main">Sign Up</button>
             </div>
-            <div id="loggedInUI" style="display:none; align-items: center; gap: 10px;">
-                <span id="displayUser" style="font-weight: 600; color: #444;"></span>
+            <div id="loggedInUI" style="display:none; align-items: center; gap: 15px;">
+                <span id="displayUser" style="font-weight: 600;"></span>
                 <button id="logoutBtn" class="btn-red">Logout</button>
             </div>
         </div>
     </header>
 
     <main class="content">
-        <div class="hero-section">
-            <h1 class="hero-text">N & H Image Deep Resolution</h1>
-            <p class="tagline">Clear blurry photos with AI magic in seconds</p>
-        </div>
+        <section class="hero-section">
+            <div class="badge">✨ Powered by Deep Learning AI</div>
+            <h1 class="hero-text">N & H Image <span class="gradient-text">Deep Resolution</span></h1>
+            <p class="tagline">Convert low-quality, blurry images into crystal clear Ultra HD masterpieces in one click.</p>
+        </section>
+
         <div class="main-card">
             <form id="uploadForm">
                 <div class="upload-box">
                     <input type="file" id="imageInput" hidden accept="image/*">
                     <label for="imageInput" id="dropLabel">
                         <div class="upload-icon">📸</div>
-                        <span>Click to Choose Image</span>
+                        <span>Drop or Click to Upload</span>
+                        <small>Supports JPG, PNG, WebP</small>
                     </label>
                 </div>
 
                 <div class="controls-row">
                     <select id="scaleSelect">
-                        <option value="2">Basic 2x (Free)</option>
-                        <option value="4">Pro 4x (HD) - ₹199</option>
-                        <option value="8">Ultra 8x (4K) - ₹199</option>
+                        <option value="2">Basic 2x (Free - Instant)</option>
+                        <option value="4">Pro 4x (HD) - ₹199 / Year</option>
+                        <option value="8">Ultra 8x (4K) - ₹299 / Year</option>
                     </select>
                     <button type="submit" id="enhanceBtn" class="btn-go">Enhance Now</button>
                 </div>
             </form>
         </div>
 
-        <div id="resultSection" style="display:none; margin-top: 50px;">
+        <div id="resultSection" style="display:none;">
             <div class="visual-compare">
                 <div class="img-wrap">
                     <p class="label-tag">Original Photo</p>
-                    <img id="preview" src="" alt="Original Preview">
+                    <img id="preview" src="">
                 </div>
-
                 <div class="img-wrap">
-                    <p class="label-tag">Enhance AI Version</p>
+                    <p class="label-tag highlight">AI Cleaned Version</p>
                     <div id="loadingOverlay" class="loader-box" style="display:none;">
                         <div class="spinner"></div>
-                        <p>AI is cleaning...</p>
+                        <p>AI is analyzing pixels...</p>
                     </div>
-                    <img id="result" src="" alt="Enhanced Result">
+                    <img id="result" src="">
                 </div>
             </div>
-
-            <div class="action-buttons" style="margin-top: 30px; text-align: center;">
-                <button id="downloadBtn" class="btn-dl" style="display:none;">Download Full HD</button>
+            <div class="action-buttons">
+                <button id="downloadBtn" class="btn-dl" style="display:none;">Download Master Copy</button>
             </div>
         </div>
-    </main>
-    <footer>
-<div class="support-container">
-            <div class="support-box">
-                <p class="support-title">Need Help? Contact Support</p>
-                <div class="support-links">
-                    <a href="tel:+919414305207" class="s-link">
-                        <span>📞</span> Naresh: +91 94143 05207
-                    </a>
-                    <span class="dot-sep">•</span>
-                    <a href="mailto:naresh.slsuthar@gmail.com" class="s-link">
-                        <span>✉️</span> naresh.slsuthar@gmail.com
-                    </a>
+
+        <section class="ad-section">
+            <h2 class="section-title">Why choose N & H Resolution?</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <span class="feat-icon">⚡</span>
+                    <h3>Instant Processing</h3>
+                    <p>Clean images in under 5 seconds with our high-speed AI servers.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feat-icon">💎</span>
+                    <h3>Ultra HD Detail</h3>
+                    <p>Recover lost details in old photos and make them look like 4K shots.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feat-icon">🛡️</span>
+                    <h3>Secure & Private</h3>
+                    <p>Your photos are processed securely and deleted after processing.</p>
                 </div>
             </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="support-container">
+            <p class="support-title">Customer Support & Technical Help</p>
+            <div class="support-links">
+                <a href="tel:+919414305207" class="s-link"><span>📞</span> Naresh: +91 94143 05207</a>
+                <span class="dot-sep">•</span>
+                <a href="mailto:naresh.slsuthar@gmail.com" class="s-link"><span>✉️</span> naresh.slsuthar@gmail.com</a>
+            </div>
+            <p class="expiry-notice">Pro Plans (4x/8x) valid for 365 days from date of purchase.</p>
         </div>
     </footer>
+
     <script src="script.js"></script>
 </body>
 </html>
