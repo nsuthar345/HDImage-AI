@@ -22,7 +22,7 @@ const elements = {
     logoutBtn: document.getElementById("logoutBtn"),
     loggedInUI: document.getElementById("loggedInUI"),
     loggedOutUI: document.getElementById("loggedOutUI"),
-    userName: document.getElementById("uName"),
+userName: document.getElementById("displayUser"),
     imageInput: document.getElementById("imageInput"),
     previewImg: document.getElementById("preview"),
     resultImg: document.getElementById("result"),
