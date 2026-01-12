@@ -1,4 +1,3 @@
-alert("JS Loaded");
 const imageInput = document.getElementById("imageInput");
 const preview = document.getElementById("preview");
 const form = document.getElementById("uploadForm");
@@ -24,8 +23,9 @@ form.addEventListener("submit", async (e) => {
 
     const formData = new FormData();
     formData.append("image", file);
+    formData.append("scale", "2"); // Yeh line important hai!
 
-    alert("Enhancing... please wait 30-40 seconds");
+    alert("Enhancing... please wait 20-30 seconds (Render Free Tier may be slow)");
 
     try {
         const response = await fetch(
@@ -37,14 +37,17 @@ form.addEventListener("submit", async (e) => {
         );
 
         if (!response.ok) {
+            const errorData = await response.json();
+            console.error("Server Error:", errorData);
             throw new Error("Server error");
         }
 
         const blob = await response.blob();
         resultImg.src = URL.createObjectURL(blob);
+        alert("Success! Image Enhanced.");
 
     } catch (err) {
-        console.error(err);
-        alert("Enhance failed");
+        console.error("Fetch Error:", err);
+        alert("Enhance failed. Check console for details.");
     }
 });
