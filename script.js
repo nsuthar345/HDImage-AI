@@ -1,3 +1,11 @@
+const firebaseConfig = {
+  apiKey: "AIzaSy...",
+  authDomain: "hd-image-ai.firebaseapp.com",
+  projectId: "hd-image-ai",
+  storageBucket: "hd-image-ai.appspot.com",
+  messagingSenderId: "...",
+  appId: "..."
+};
 const imageInput = document.getElementById("imageInput");
 const preview = document.getElementById("preview");
 const form = document.getElementById("uploadForm");
