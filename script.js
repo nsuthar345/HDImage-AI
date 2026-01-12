@@ -1,3 +1,4 @@
+alert("JS Loaded");
 const imageInput = document.getElementById("imageInput");
 const preview = document.getElementById("preview");
 const form = document.getElementById("uploadForm");
