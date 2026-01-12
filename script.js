@@ -140,3 +140,7 @@ async function processImage(scale) {
         elements.enhanceBtn.innerHTML = "Enhance Now";
     }
 }
+slider.oninput = function() {
+    wrapper.style.width = this.value + "%";
+    // Image ki width ko mat chhedna, wo CSS se freeze hai!
+};
