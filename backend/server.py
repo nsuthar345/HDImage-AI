@@ -7,37 +7,31 @@ import io
 import os
 
 app = Flask(__name__)
-CORS(app)  # Isse frontend aur backend connect ho payenge
+CORS(app) # Sabhi origins ko allow karne ke liye
 
 @app.route("/enhance", methods=["POST"])
 def enhance():
     try:
-        # Check if image is in request
         if "image" not in request.files:
-            return {"error": "No image uploaded"}, 400
+            return "No image found in request", 400
             
         file = request.files["image"]
-        
-        # Scale value frontend se lene ki koshish (default 2)
-        scale = int(request.form.get("scale", 2))
+        scale = int(request.form.get("scale", 2)) # Default scale 2
 
-        # Process image
+        # Image processing
         image = Image.open(file).convert("RGB")
         img_np = np.array(image)
 
         h, w = img_np.shape[:2]
-        # Image resize (Enhance)
         upscaled = cv2.resize(
             img_np,
             (w * scale, h * scale),
             interpolation=cv2.INTER_CUBIC
         )
 
-        # Sharpening filter
         kernel = np.array([[0,-1,0],[-1,5,-1],[0,-1,0]])
         sharpened = cv2.filter2D(upscaled, -1, kernel)
 
-        # Convert back to image
         output = Image.fromarray(sharpened)
         img_io = io.BytesIO()
         output.save(img_io, "PNG")
@@ -46,7 +40,8 @@ def enhance():
         return send_file(img_io, mimetype="image/png")
     
     except Exception as e:
-        return {"error": str(e)}, 500
+        print(f"Error: {str(e)}")
+        return str(e), 500
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
